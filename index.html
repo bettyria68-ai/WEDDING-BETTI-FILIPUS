@@ -39,16 +39,18 @@
             height: 100vh;
         }
 
-        /* Outer Background Video (Sesuai Permintaan) */
-        .outer-bg-video {
+        /* Background gambar di luar frame iPhone */
+        .outer-bg-image {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             object-fit: cover;
+            object-position: center;
             z-index: 1;
             filter: brightness(0.4) blur(4px);
+            transform: scale(1.02); /* Mencegah tepi kosong akibat efek blur */
         }
 
         .sparkle-overlay {
@@ -325,7 +327,24 @@
         .lightbox img { max-width: 100%; max-height: 80%; border-radius: 8px;}
 
         /* Typography */
-        .typewriter { overflow: hidden; white-space: nowrap; border-right: 2px solid var(--primary-gold); animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite; max-width: fit-content; margin: 0 auto;}
+        /* Nama tamu harus selalu tampil utuh, termasuk gelar yang panjang */
+        .typewriter {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 4px;
+            overflow: visible;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: normal;
+            line-height: 1.4;
+            text-align: center;
+            border-right: none;
+            animation: none;
+        }
+        #guest-target {
+            font-size: clamp(0.85rem, 3.6vw, 1.1rem) !important;
+        }
         
         .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease;}
         .fade-up.visible { opacity: 1; transform: translateY(0);}
@@ -354,24 +373,15 @@
 </head>
 <body>
 
-    <!-- Background Video Kiri & Kanan -->
-    <div class="outer-bg-container">
-        <!-- Video Sisi Kiri -->
-        <video class="outer-bg-video bg-left" autoplay loop muted playsinline>
-            <source src="./assets/BG wayang.mp4" type="video/mp4">
-        </video>
-        <!-- Video Sisi Kanan -->
-        <video class="outer-bg-video bg-right" autoplay loop muted playsinline>
-            <source src="./assets/BG wayang.mp4" type="video/mp4">
-        </video>
-    </div>
+    <!-- Background gambar di luar frame iPhone 13 Pro -->
+    <img class="outer-bg-image" src="./assets/BG OUT FRAME.png" alt="Background undangan">
     <div class="sparkle-overlay"></div>
 
     <div class="iphone-container">
         <div class="iphone-notch"></div>
         
-        <video class="inner-bg-video" autoplay loop muted playsinline>
-            <source src="./assets/Bg_Bergerak.mp4" type="video/mp4">
+        <video class="inner-bg-video" autoplay loop muted playsinline preload="auto">
+            <source src="./assets/BG in frame fix.mp4" type="video/mp4">
         </video>
 
         <div id="loading-screen">
@@ -516,7 +526,7 @@
                     <!-- REVISI 3: VIDEO GALERI jadi yang kedua -->
                     <div style="margin-top: 15px; border-radius: 8px; overflow: hidden; border:1px solid var(--primary-gold);">
                         <video width="100%" controls onplay="pauseMainMusic()" onpause="resumeMainMusic()" onended="resumeMainMusic()">
-                            <source src="./assets/VIDEO GALERI.mp4" type="video/mp4">
+                            <source src="assets/VIDEO GALERI.mp4" type="video/mp4">
                         </video>
                     </div>
 
