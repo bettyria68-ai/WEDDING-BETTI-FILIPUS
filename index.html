@@ -662,14 +662,24 @@
             if(guestName) document.getElementById('guest-target').innerText = "Yth. " + decodeURIComponent(guestName);
         }
 
-        // FUNGSI COVER SLIDE UP & PLAY AUDIO
+        // FUNGSI COVER SLIDE UP & PLAY AUDIO DENGAN VALIDASI PERANGKAT
         function openInvitation() {
-            const cover = document.getElementById('cover');
-            cover.style.transform = 'translateY(-100%)';
-            audio.volume = 0.7;
-            audio.play().catch(e => console.log("Autoplay dicegah browser."));
-            triggerFadeUpAnimations();
-            setTimeout(() => cover.style.display = 'none', 1000);
+    // Cek apakah perangkat sudah pernah membuka undangan sebelumnya
+    if (localStorage.getItem('undangan_dibuka')) {
+        // Jika sudah pernah dibuka, langsung arahkan ke isi undangan
+        // atau Anda bisa memberi peringatan/pesan jika ingin memblokir total.
+        // Di bawah ini adalah logika agar undangan tetap terbuka namun sudah ditandai.
+    } else {
+        // Jika baru pertama kali, beri tanda di browser
+         localStorage.setItem('undangan_dibuka', 'true');
+         }
+
+         const cover = document.getElementById('cover');
+         cover.style.transform = 'translateY(-100%)';
+         audio.volume = 0.7;
+         audio.play().catch(e => console.log("Autoplay dicegah browser."));
+         triggerFadeUpAnimations();
+         setTimeout(() => cover.style.display = 'none', 1000);
         }
 
         // FUNGSI KLIK MENU SCROLL & HIGHLIGHT
