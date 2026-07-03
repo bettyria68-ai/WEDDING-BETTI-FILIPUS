@@ -274,6 +274,107 @@
             padding-bottom: 5px;
         }
 
+        /* ===== HALAMAN BUKA AMPLOP ===== */
+        #amplop-page {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+            z-index: 4999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            backdrop-filter: blur(5px);
+            transition: opacity 0.8s ease;
+        }
+        #amplop-page.show {
+            display: flex;
+            animation: fadeInAmplop 0.8s ease;
+        }
+        #amplop-page.hide {
+            opacity: 0;
+            pointer-events: none;
+            display: flex !important;
+        }
+
+        @keyframes fadeInAmplop {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .amplop-container {
+            text-align: center;
+            color: var(--ivory);
+            max-width: 100%;
+        }
+        .amplop-icon {
+            font-size: 5rem;
+            color: var(--primary-gold);
+            animation: pulse 2s infinite alternate;
+            margin-bottom: 15px;
+        }
+        .amplop-container .sub-label {
+            letter-spacing: 6px;
+            font-size: 0.7rem;
+            color: var(--light-gold);
+            text-shadow: 1px 1px 4px #000;
+        }
+        .amplop-container h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin: 10px 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
+        .amplop-container .guest-name-display {
+            font-size: 1.3rem;
+            color: #fff;
+            margin: 15px 0;
+            font-weight: 500;
+            background: rgba(212, 175, 55, 0.15);
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            display: inline-block;
+        }
+        .amplop-container .pantun {
+            font-size: 0.95rem;
+            line-height: 2;
+            color: #f5ede4;
+            font-style: italic;
+            background: rgba(0,0,0,0.35);
+            padding: 20px 25px;
+            border-radius: 16px;
+            margin: 15px 0;
+            border-left: 3px solid var(--primary-gold);
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+        .amplop-container .pantun .highlight-name {
+            color: var(--primary-gold);
+            font-weight: 700;
+            font-style: normal;
+        }
+        .btn-buka-amplop {
+            background: linear-gradient(135deg, var(--primary-gold), #b8962a);
+            color: #1a1a1a;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            box-shadow: 0 4px 30px rgba(212, 175, 55, 0.3);
+        }
+        .btn-buka-amplop:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 40px rgba(212, 175, 55, 0.5);
+        }
+
         /* ===== SECTION STANDAR ===== */
         section {
             position: relative;
@@ -511,6 +612,8 @@
             .cover-header h1 { font-size: 2.5rem; }
             .login-form { padding: 20px 15px; }
             .glass-panel { padding: 18px; }
+            .amplop-container h1 { font-size: 2rem; }
+            .amplop-container .pantun { font-size: 0.85rem; padding: 15px; }
         }
     </style>
 </head>
@@ -564,8 +667,30 @@
             </div>
         </div>
 
+        <!-- ===== HALAMAN BUKA AMPLOP ===== -->
+        <div id="amplop-page">
+            <div class="amplop-container">
+                <div class="amplop-icon">💌</div>
+                <p class="sub-label">THE WEDDING OF</p>
+                <h1>Betti &amp; Filipus</h1>
+                
+                <div class="guest-name-display" id="amplopGuestName">Yth. Tamu Undangan</div>
+                
+                <div class="pantun" id="pantunDisplay">
+                    Bunga melati tumbuh di taman,<br>
+                    Semerbak harum menyapa pagi.<br>
+                    Selamat datang kami ucapkan,<br>
+                    Kepada <span class="highlight-name" id="pantunNama">Tamu Undangan</span> yang kami hormati.
+                </div>
+                
+                <button class="btn-buka-amplop" onclick="bukaAmplop()">
+                    <i class="fa-solid fa-envelope-open"></i> Buka Undangan
+                </button>
+            </div>
+        </div>
+
         <!-- ===== ISI UNDANGAN ===== -->
-        <div class="phone-screen" id="main-scroll-screen">
+        <div class="phone-screen" id="main-scroll-screen" style="display:none;">
             
             <section id="beranda" class="fade-up" style="padding-top:120px;">
                 <div class="glass-panel">
@@ -795,18 +920,16 @@
     </audio>
 
     <!-- ========================================== -->
-    <!-- SCRIPT LENGKAP SESUAI SPREADSHEET          -->
+    <!-- SCRIPT LENGKAP                             -->
     <!-- ========================================== -->
     <script>
         // ==========================================
         // 1. KONFIGURASI URL APPS SCRIPT
         // ==========================================
-        // GANTI DENGAN URL DEPLOY APPS SCRIPT ANDA
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhbHdd8OUn_2zyZxxcBWkuufHN-54o4xSBN0QdsH8xzF2KjgiBbFdlEQ4iROm6Ex9e/exec';
 
         // ==========================================
-        // 2. DATA TAMU CADANGAN (jika Apps Script offline)
-        //    SESUAI DENGAN SPREADSHEET ANDA
+        // 2. DATA TAMU CADANGAN
         // ==========================================
         const DATA_TAMU_CADANGAN = [
             { no: 1, kategori: 'Keluarga Blabag', nama: 'Mas Heri', noHp: '081316333597', id: 'heri', kode: 'KB-001', status: 'Sudah' },
@@ -819,11 +942,13 @@
         // 3. STORAGE KEY
         // ==========================================
         const STORAGE_KEY = 'bf_wedding_session';
+        const AMPLOP_KEY = 'bf_amplop_opened';
 
         // ==========================================
         // 4. ELEMEN DOM
         // ==========================================
         const cover = document.getElementById('cover');
+        const amplopPage = document.getElementById('amplop-page');
         const loginBtn = document.getElementById('loginBtn');
         const loginError = document.getElementById('loginError');
         const deviceWarning = document.getElementById('deviceWarning');
@@ -832,6 +957,14 @@
         const inputKode = document.getElementById('inputKode');
         const namaDisplay = document.getElementById('namaTamuDisplay');
         const guestTarget = document.getElementById('guest-target');
+        const amplopGuestName = document.getElementById('amplopGuestName');
+        const pantunNama = document.getElementById('pantunNama');
+
+        let currentNama = '';
+        let currentKode = '';
+        let currentId = '';
+        let isAmplopOpened = false;
+        let musicStarted = false;
 
         // ==========================================
         // 5. CEK SESSION DI localStorage
@@ -842,20 +975,118 @@
                 try {
                     const data = JSON.parse(session);
                     if (data.expiry && Date.now() < data.expiry) {
-                        loginBerhasil(data.nama, data.id, data.kode);
+                        currentNama = data.nama;
+                        currentId = data.id;
+                        currentKode = data.kode;
+                        
+                        // Cek apakah amplop sudah pernah dibuka
+                        isAmplopOpened = localStorage.getItem(AMPLOP_KEY) === 'true';
+                        
+                        if (isAmplopOpened) {
+                            // Langsung ke konten undangan
+                            langsungKeUndangan(data.nama);
+                        } else {
+                            // Tampilkan amplop
+                            tampilkanAmplop(data.nama);
+                        }
                         return true;
                     } else {
                         localStorage.removeItem(STORAGE_KEY);
+                        localStorage.removeItem(AMPLOP_KEY);
                     }
                 } catch (e) {
                     localStorage.removeItem(STORAGE_KEY);
+                    localStorage.removeItem(AMPLOP_KEY);
                 }
             }
             return false;
         }
 
         // ==========================================
-        // 6. FUNGSI PROSES LOGIN
+        // 6. FUNGSI TAMPILKAN AMPLOP
+        // ==========================================
+        function tampilkanAmplop(nama) {
+            // Sembunyikan cover
+            cover.classList.add('hidden');
+            
+            // Sembunyikan konten utama
+            document.getElementById('main-scroll-screen').style.display = 'none';
+            
+            // Tampilkan amplop
+            amplopPage.className = 'show';
+            
+            // Update nama di amplop
+            amplopGuestName.textContent = 'Yth. ' + nama;
+            pantunNama.textContent = nama;
+        }
+
+        // ==========================================
+        // 7. FUNGSI BUKA AMPLOP
+        // ==========================================
+        function bukaAmplop() {
+            if (isAmplopOpened) return;
+            
+            isAmplopOpened = true;
+            localStorage.setItem(AMPLOP_KEY, 'true');
+            
+            amplopPage.className = 'hide';
+            
+            setTimeout(() => {
+                amplopPage.style.display = 'none';
+                // Tampilkan konten undangan
+                document.getElementById('main-scroll-screen').style.display = 'block';
+                
+                // Update nama di selamat datang
+                namaDisplay.textContent = 'Selamat datang, ' + currentNama + '! (Kode: ' + currentKode + ')';
+                guestTarget.textContent = 'Yth. ' + currentNama;
+                
+                // Play musik otomatis
+                playMusic();
+                
+                // Trigger animasi fade up
+                setTimeout(triggerFadeUpAnimations, 300);
+            }, 800);
+        }
+
+        // ==========================================
+        // 8. FUNGSI LANGSUNG KE UNDANGAN (jika amplop sudah dibuka)
+        // ==========================================
+        function langsungKeUndangan(nama) {
+            cover.classList.add('hidden');
+            amplopPage.style.display = 'none';
+            document.getElementById('main-scroll-screen').style.display = 'block';
+            
+            namaDisplay.textContent = 'Selamat datang, ' + nama + '! (Kode: ' + currentKode + ')';
+            guestTarget.textContent = 'Yth. ' + nama;
+            
+            // Play musik otomatis
+            playMusic();
+            
+            setTimeout(triggerFadeUpAnimations, 300);
+        }
+
+        // ==========================================
+        // 9. FUNGSI PLAY MUSIK
+        // ==========================================
+        function playMusic() {
+            if (!musicStarted) {
+                const audio = document.getElementById('main-wedding-audio');
+                audio.volume = 0.7;
+                audio.play().catch(e => {
+                    console.log('Autoplay dicegah browser. Tunggu interaksi user.');
+                    // Coba lagi saat user klik di mana saja
+                    document.addEventListener('click', function playOnClick() {
+                        audio.play().catch(() => {});
+                        document.removeEventListener('click', playOnClick);
+                    }, { once: true });
+                });
+                musicStarted = true;
+                document.getElementById('audioIcon').className = "fa-solid fa-circle-pause";
+            }
+        }
+
+        // ==========================================
+        // 10. FUNGSI PROSES LOGIN
         // ==========================================
         async function prosesLogin() {
             const id = inputId.value.trim().toLowerCase();
@@ -912,7 +1143,16 @@
                         expiry: Date.now() + (30 * 24 * 60 * 60 * 1000)
                     };
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
-                    loginBerhasil(result.nama, id, kode);
+                    
+                    currentNama = result.nama;
+                    currentId = id;
+                    currentKode = kode;
+                    isAmplopOpened = false;
+                    localStorage.removeItem(AMPLOP_KEY);
+                    
+                    tampilkanAmplop(result.nama);
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
                     return;
                 } else {
                     loginError.textContent = '❌ ' + result.pesan;
@@ -955,33 +1195,25 @@
                 };
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
                 
-                loginBerhasil(tamu.nama, id, kode);
+                currentNama = tamu.nama;
+                currentId = id;
+                currentKode = kode;
+                isAmplopOpened = false;
+                localStorage.removeItem(AMPLOP_KEY);
+                
+                tampilkanAmplop(tamu.nama);
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
             }
         }
 
         // ==========================================
-        // 7. FUNGSI LOGIN BERHASIL
-        // ==========================================
-        function loginBerhasil(nama, id, kode) {
-            guestTarget.textContent = 'Yth. ' + nama;
-            namaDisplay.textContent = 'Selamat datang, ' + nama + '! (Kode: ' + kode + ')';
-            
-            cover.classList.add('hidden');
-            
-            const audio = document.getElementById('main-wedding-audio');
-            audio.volume = 0.7;
-            audio.play().catch(e => console.log('Autoplay dicegah browser.'));
-
-            setTimeout(triggerFadeUpAnimations, 300);
-
-            loginBtn.disabled = false;
-            loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
-        }
-
-        // ==========================================
-        // 8. CEK SESSION SAAT LOAD
+        // 11. CEK SESSION SAAT LOAD
         // ==========================================
         document.addEventListener('DOMContentLoaded', function() {
+            // Sembunyikan konten utama dulu
+            document.getElementById('main-scroll-screen').style.display = 'none';
+            
             const sudahLogin = cekSession();
             
             setTimeout(() => {
@@ -999,7 +1231,7 @@
         });
 
         // ==========================================
-        // 9. FUNGSI LAINNYA
+        // 12. FUNGSI LAINNYA
         // ==========================================
         const audio = document.getElementById('main-wedding-audio');
         const scrollContainer = document.getElementById('main-scroll-screen');
@@ -1038,12 +1270,24 @@
 
         function toggleAudio() {
             const icon = document.getElementById('audioIcon');
-            if (audio.paused) { audio.play(); icon.className = "fa-solid fa-circle-pause"; } 
-            else { audio.pause(); icon.className = "fa-solid fa-circle-play"; }
+            if (audio.paused) { 
+                audio.play(); 
+                icon.className = "fa-solid fa-circle-pause"; 
+                musicStarted = true;
+            } else { 
+                audio.pause(); 
+                icon.className = "fa-solid fa-circle-play"; 
+            }
         }
         function setVolume(val) { audio.volume = val; }
-        function pauseMainMusic() { audio.pause(); document.getElementById('audioIcon').className = "fa-solid fa-circle-play"; }
-        function resumeMainMusic() { audio.play(); document.getElementById('audioIcon').className = "fa-solid fa-circle-pause"; }
+        function pauseMainMusic() { 
+            audio.pause(); 
+            document.getElementById('audioIcon').className = "fa-solid fa-circle-play"; 
+        }
+        function resumeMainMusic() { 
+            audio.play(); 
+            document.getElementById('audioIcon').className = "fa-solid fa-circle-pause"; 
+        }
 
         scrollContainer.addEventListener('scroll', triggerFadeUpAnimations);
         function triggerFadeUpAnimations() {
@@ -1076,7 +1320,7 @@
         function closeLightbox() { document.getElementById('lightboxGal').style.display = 'none'; }
 
         // ==========================================
-        // 10. RSVP & COMMENTS
+        // 13. RSVP & COMMENTS
         // ==========================================
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxW5_9UoxIInG8L8ltvthWu2-Q5UREvsAz3rcgftB_P1XHEosRkEAMRQQ7aq7fZGMwd/exec';
         const form = document.forms['rsvp-form'];
@@ -1135,7 +1379,7 @@
         }
 
         // ==========================================
-        // 11. ENTER KEY UNTUK LOGIN
+        // 14. ENTER KEY UNTUK LOGIN
         // ==========================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
