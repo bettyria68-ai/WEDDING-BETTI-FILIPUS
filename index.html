@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Wedding of Betti & Filipus</title>
     <meta name="description" content="Undangan Pernikahan Betti dan Filipus">
     
@@ -28,15 +28,22 @@
             padding: 0;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #0b0b0b;
             color: var(--text-dark);
-            overflow: hidden; 
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 10px;
         }
 
         .outer-bg-image {
@@ -63,18 +70,23 @@
             background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 100%);
         }
 
+        /* ===== FRAME IPHONE 13 PRO ===== */
         .iphone-container {
             position: relative;
-            width: 412px;
-            height: 892px;
-            max-width: 95vw;
-            max-height: 95vh;
+            width: 390px;
+            height: 844px;
+            flex-shrink: 0;
             background: #121212;
             border-radius: 48px;
-            box-shadow: 0 0 0 4px #2c2c2c, 0 0 0 12px #1e1e1e, 0 20px 50px rgba(0,0,0,0.8);
-            border: 4px solid #3a3a3a;
+            box-shadow: 
+                0 0 0 4px #2c2c2c, 
+                0 0 0 10px #1e1e1e, 
+                0 0 0 14px #3a3a3a,
+                0 20px 60px rgba(0,0,0,0.9),
+                0 0 40px rgba(212, 175, 55, 0.08);
+            border: 2px solid #3a3a3a;
             z-index: 10;
-            overflow: hidden; 
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
@@ -84,11 +96,24 @@
             top: 12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 110px;
-            height: 25px;
+            width: 120px;
+            height: 28px;
             background: #000;
-            border-radius: 15px;
+            border-radius: 20px;
             z-index: 9999;
+        }
+        
+        /* Speaker notch */
+        .iphone-notch::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 6px;
+            background: #1a1a1a;
+            border-radius: 10px;
         }
 
         .inner-bg-video {
@@ -106,11 +131,12 @@
             position: relative;
             width: 100%;
             height: 100%;
-            overflow-y: auto; 
+            overflow-y: auto;
             overflow-x: hidden;
             z-index: 2;
             scroll-behavior: smooth;
             scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
         }
         .phone-screen::-webkit-scrollbar { display: none; }
 
@@ -147,7 +173,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 40px 20px 30px 20px;
+            padding: 50px 20px 30px 20px;
             transition: transform 1s ease-in-out, opacity 1s ease;
             backdrop-filter: blur(5px);
         }
@@ -168,7 +194,7 @@
             color: var(--light-gold);
         }
         .cover-header h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             color: var(--primary-gold);
             margin: 8px 0;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
@@ -339,23 +365,6 @@
             border: 1px solid rgba(212, 175, 55, 0.3);
             display: inline-block;
         }
-        .amplop-container .pantun {
-            font-size: 0.95rem;
-            line-height: 2;
-            color: #f5ede4;
-            font-style: italic;
-            background: rgba(0,0,0,0.35);
-            padding: 20px 25px;
-            border-radius: 16px;
-            margin: 15px 0;
-            border-left: 3px solid var(--primary-gold);
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-        }
-        .amplop-container .pantun .highlight-name {
-            color: var(--primary-gold);
-            font-weight: 700;
-            font-style: normal;
-        }
         .btn-buka-amplop {
             background: linear-gradient(135deg, var(--primary-gold), #b8962a);
             color: #1a1a1a;
@@ -430,6 +439,7 @@
             margin: 15px 0;
             border-left: 3px solid var(--primary-gold);
             font-weight: 500;
+            text-align: center;
         }
         .pantun-welcome .highlight-name {
             color: var(--primary-gold);
@@ -477,10 +487,10 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 70px;
+            height: 68px;
             background: rgba(18, 18, 18, 0.95);
             backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.08);
             z-index: 999;
             display: flex;
             justify-content: flex-start;
@@ -488,7 +498,7 @@
             padding: 0 15px;
             overflow-x: auto;
             scroll-behavior: smooth;
-            gap: 18px;
+            gap: 14px;
             border-bottom-left-radius: 40px;
             border-bottom-right-radius: 40px;
         }
@@ -502,17 +512,18 @@
             align-items: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 50px;
+            min-width: 44px;
+            flex-shrink: 0;
         }
         .nav-item i {
-            font-size: 1.2rem;
-            margin-bottom: 4px;
+            font-size: 1.1rem;
+            margin-bottom: 2px;
         }
         .nav-item span {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             font-family: 'Montserrat', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
         .nav-item.active {
             color: var(--primary-gold);
@@ -522,33 +533,33 @@
         .audio-control {
             position: absolute;
             bottom: 85px;
-            right: 20px;
+            right: 15px;
             z-index: 998;
             background: rgba(0,0,0,0.7);
             border: 1px solid var(--primary-gold);
             border-radius: 30px;
-            padding: 5px;
+            padding: 4px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.4s ease;
-            max-width: 45px;
+            max-width: 40px;
             overflow: hidden;
         }
         .audio-control:hover, .audio-control.expanded {
-            max-width: 150px;
-            padding: 5px 12px;
+            max-width: 140px;
+            padding: 4px 10px;
         }
         .audio-btn {
             background: none;
             border: none;
             color: var(--primary-gold);
             cursor: pointer;
-            font-size: 1rem;
-            width: 32px;
-            height: 32px;
+            font-size: 0.9rem;
+            width: 28px;
+            height: 28px;
         }
-        .volume-slider { width: 60px; accent-color: var(--primary-gold); display: none; }
+        .volume-slider { width: 50px; accent-color: var(--primary-gold); display: none; }
         .audio-control:hover .volume-slider { display: block; }
 
         .countdown-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 15px;}
@@ -599,8 +610,8 @@
             text-align: left;
         }
         .profile-card img {
-            width: 90px;
-            height: 120px;
+            width: 80px;
+            height: 80px;
             object-fit: cover;
             border-radius: 50%;
             border: 3px solid var(--primary-gold);
@@ -622,10 +633,20 @@
             display: block;
         }
 
-        @media (max-width: 480px) {
+        /* ============================================================
+           RESPONSIVE - FRAME TETAP TERLIHAT UTUH DI SEMUA PERANGKAT
+           ============================================================ */
+        
+        /* Untuk layar sangat kecil (HP kecil) */
+        @media (max-width: 430px) {
+            body {
+                padding: 0;
+                background: #0b0b0b;
+            }
             .iphone-container {
                 width: 100vw;
                 height: 100vh;
+                height: 100dvh;
                 border-radius: 0;
                 border: none;
                 box-shadow: none;
@@ -635,28 +656,103 @@
             .iphone-notch { display: none; }
             .bottom-nav {
                 border-radius: 0;
-                height: 60px;
-                gap: 12px;
-                padding: 0 10px;
+                height: 58px;
+                gap: 10px;
+                padding: 0 8px;
             }
-            .nav-item i { font-size: 1rem; }
-            .nav-item span { font-size: 0.45rem; }
-            .cover-header h1 { font-size: 2.5rem; }
-            .login-form { padding: 20px 15px; }
-            .glass-panel { padding: 18px; }
-            .amplop-container h1 { font-size: 2rem; }
-            .amplop-container .pantun { font-size: 0.85rem; padding: 15px; }
+            .nav-item i { font-size: 0.95rem; }
+            .nav-item span { font-size: 0.4rem; }
+            .cover-header h1 { font-size: 2.2rem; }
+            .login-form { padding: 18px 14px; max-width: 100%; }
+            .glass-panel { padding: 16px; }
+            .amplop-container h1 { font-size: 1.8rem; }
+            .profile-card img { width: 60px; height: 60px; }
+            .gold-title { font-size: 1.8rem; }
+            .audio-control { bottom: 75px; right: 10px; }
+        }
+
+        /* Untuk tablet dan layar sedang */
+        @media (min-width: 431px) and (max-width: 768px) {
+            .iphone-container {
+                width: 380px;
+                height: 820px;
+                border-radius: 42px;
+            }
+            .iphone-notch {
+                width: 100px;
+                height: 24px;
+                top: 10px;
+            }
+            .iphone-notch::before {
+                width: 40px;
+                height: 5px;
+            }
+        }
+
+        /* Untuk layar besar (desktop) */
+        @media (min-width: 769px) {
+            .iphone-container {
+                width: 390px;
+                height: 844px;
+                border-radius: 48px;
+            }
+            body {
+                padding: 20px;
+            }
+        }
+
+        /* Untuk landscape di HP */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .iphone-container {
+                width: 320px;
+                height: 90vh;
+                height: 90dvh;
+                border-radius: 30px;
+            }
+            .iphone-notch { display: none; }
+            .bottom-nav { height: 50px; gap: 6px; padding: 0 6px; }
+            .nav-item i { font-size: 0.8rem; }
+            .nav-item span { font-size: 0.35rem; }
+            .cover-header h1 { font-size: 1.8rem; }
+            .login-form { padding: 12px 10px; max-width: 100%; }
+            .login-form h3 { font-size: 1rem; }
+            .login-form input { padding: 8px 10px; font-size: 0.8rem; margin-bottom: 6px; }
+            .login-form .login-btn { padding: 10px; font-size: 0.8rem; }
+            .amplop-container h1 { font-size: 1.5rem; }
+            .amplop-icon { font-size: 3rem; }
+            .guest-name-display { font-size: 0.9rem; padding: 6px 15px; }
+            .btn-buka-amplop { padding: 10px 25px; font-size: 0.8rem; }
+            section { padding: 40px 15px 60px 15px; }
+            .glass-panel { padding: 12px; margin: 8px 0; }
+            .gold-title { font-size: 1.4rem; }
+            .profile-card img { width: 50px; height: 50px; }
+            .audio-control { bottom: 60px; right: 8px; max-width: 32px; }
+            .audio-btn { font-size: 0.7rem; width: 22px; height: 22px; }
+            #cover { padding: 20px 15px 15px 15px; }
+            .cover-footer { font-size: 0.5rem; }
+            .pantun-welcome { font-size: 0.8rem; padding: 12px 15px; }
+            .countdown-box span { font-size: 1rem; }
+        }
+
+        /* Optimasi performa */
+        .lazy-load {
+            content-visibility: auto;
+            contain-intrinsic-size: 0 500px;
+        }
+        .reduce-motion {
+            animation-duration: 0.5s !important;
+            transition-duration: 0.3s !important;
         }
     </style>
 </head>
 <body>
-    <img class="outer-bg-image" src="./assets/BG OUT FRAME.png" alt="Background undangan">
+    <img class="outer-bg-image" src="./assets/BG OUT FRAME.png" alt="Background undangan" loading="lazy">
     <div class="sparkle-overlay"></div>
 
     <div class="iphone-container">
         <div class="iphone-notch"></div>
         
-        <video class="inner-bg-video" autoplay loop muted playsinline preload="auto">
+        <video class="inner-bg-video" autoplay loop muted playsinline preload="none">
             <source src="./assets/BG in frame fix.mp4" type="video/mp4">
         </video>
 
@@ -705,16 +801,7 @@
                 <div class="amplop-icon">💌</div>
                 <p class="sub-label">THE WEDDING OF</p>
                 <h1>Betti &amp; Filipus</h1>
-                
                 <div class="guest-name-display" id="amplopGuestName">Yth. Tamu Undangan</div>
-                
-                <div class="pantun" id="pantunAmplop">
-                    Bunga melati tumbuh di taman,<br>
-                    Semerbak harum menyapa pagi.<br>
-                    Selamat datang kami ucapkan,<br>
-                    Kepada <span class="highlight-name" id="pantunNamaAmplop">Tamu Undangan</span> yang kami hormati.
-                </div>
-                
                 <button class="btn-buka-amplop" onclick="bukaAmplop()">
                     <i class="fa-solid fa-envelope-open"></i> Buka Undangan
                 </button>
@@ -724,7 +811,7 @@
         <!-- ===== ISI UNDANGAN ===== -->
         <div class="phone-screen" id="main-scroll-screen" style="display:none;">
             
-            <section id="beranda" class="fade-up" style="padding-top:120px;">
+            <section id="beranda" class="fade-up" style="padding-top:100px;">
                 <div class="glass-panel">
                     <h2 class="gold-title">Selamat Datang</h2>
                     <div class="pantun-welcome">
@@ -761,7 +848,7 @@
                     <h2 class="gold-title">Mempelai Wanita</h2>
                     <h3 style="font-size: 1.4rem; font-weight: bold;">Florentina Betti Ria Wardani, S.Pd.</h3>
                     <div class="profile-card">
-                        <img src="./assets/GALERI 5.png" alt="Mempelai Wanita">
+                        <img src="./assets/GALERI 5.png" alt="Mempelai Wanita" loading="lazy">
                         <p style="font-size: 0.85rem;">Putri dari:<br>Bapak Michael Purwanto<br>&<br>Ibu Risma Situmorang</p>
                     </div>
                 </div>
@@ -772,7 +859,7 @@
                     <h2 class="gold-title">Mempelai Pria</h2>
                     <h3 style="font-size: 1.4rem; font-weight: bold;">Filipus Bhakti Wirayuda, S.Pd.</h3>
                     <div class="profile-card">
-                        <img src="./assets/GALERI 4.png" alt="Mempelai Pria">
+                        <img src="./assets/GALERI 4.png" alt="Mempelai Pria" loading="lazy">
                         <p style="font-size: 0.85rem;">Putra dari:<br>Bapak Bernadus Mardisih<br>&<br>Ibu Sumarsih Viosia (Almh.)</p>
                     </div>
                 </div>
@@ -833,22 +920,22 @@
                 <div class="glass-panel">
                     <h2 class="gold-title">Galeri Kebahagiaan</h2>
                     <div class="masonry-grid">
-                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 1.png')"><img src="./assets/GALERI 1.png" alt="Galeri"></div>
-                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 2.png')"><img src="./assets/GALERI 2.png" alt="Galeri"></div>
-                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 3.png')"><img src="./assets/GALERI 3.png" alt="Galeri"></div>
-                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 4.png')"><img src="./assets/GALERI 4.png" alt="Galeri"></div>
-                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 5.png')"><img src="./assets/GALERI 5.png" alt="Galeri"></div>
-                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 6.png')"><img src="./assets/GALERI 6.png" alt="Galeri"></div>
+                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 1.png')"><img src="./assets/GALERI 1.png" alt="Galeri" loading="lazy"></div>
+                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 2.png')"><img src="./assets/GALERI 2.png" alt="Galeri" loading="lazy"></div>
+                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 3.png')"><img src="./assets/GALERI 3.png" alt="Galeri" loading="lazy"></div>
+                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 4.png')"><img src="./assets/GALERI 4.png" alt="Galeri" loading="lazy"></div>
+                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 5.png')"><img src="./assets/GALERI 5.png" alt="Galeri" loading="lazy"></div>
+                        <div class="masonry-item" onclick="openLightbox('./assets/GALERI 6.png')"><img src="./assets/GALERI 6.png" alt="Galeri" loading="lazy"></div>
                     </div>
 
                     <div style="margin-top: 15px; border-radius: 8px; overflow: hidden; border:1px solid var(--primary-gold);">
-                        <video width="100%" controls onplay="pauseMainMusic()" onpause="resumeMainMusic()" onended="resumeMainMusic()">
+                        <video width="100%" controls onplay="pauseMainMusic()" onpause="resumeMainMusic()" onended="resumeMainMusic()" preload="none">
                             <source src="./assets/Bg_Bergerak.mp4" type="video/mp4">
                         </video>
                     </div>
                     
                     <div style="margin-top: 15px; border-radius: 8px; overflow: hidden; border:1px solid var(--primary-gold);">
-                        <video width="100%" controls onplay="pauseMainMusic()" onpause="resumeMainMusic()" onended="resumeMainMusic()">
+                        <video width="100%" controls onplay="pauseMainMusic()" onpause="resumeMainMusic()" onended="resumeMainMusic()" preload="none">
                             <source src="assets/VIDEO GALERI.mp4" type="video/mp4">
                         </video>
                     </div>
@@ -901,7 +988,7 @@
                 </div>
             </section>
 
-            <section id="penutup" class="fade-up" style="padding-bottom: 130px;">
+            <section id="penutup" class="fade-up" style="padding-bottom: 120px;">
                 <div class="glass-panel">
                     <h2 class="serif-font" style="font-size: 2rem;">Terima Kasih</h2>
                     <p style="font-size: 0.85rem; margin-top: 15px;">Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/Saudari berkenan hadir memberikan doa restu.</p>
@@ -955,7 +1042,7 @@
         <img id="lightboxImg" src="" alt="View">
     </div>
 
-    <audio id="main-wedding-audio" loop>
+    <audio id="main-wedding-audio" loop preload="none">
         <source src="./assets/Menjemput Impian (online-video-cutter.com).mp3" type="audio/mp3">
     </audio>
 
@@ -964,59 +1051,58 @@
     <!-- ========================================== -->
     <script>
         // ==========================================
-        // 1. KONFIGURASI URL APPS SCRIPT
+        // 1. KONFIGURASI URL APPS SCRIPT (BARU)
         // ==========================================
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhbHdd8OUn_2zyZxxcBWkuufHN-54o4xSBN0QdsH8xzF2KjgiBbFdlEQ4iROm6Ex9e/exec';
+        var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydU10KyvBX9royhk2jKtDRPdxXWtwlqUIa6Q8spThUyoq718kUVxy8SkZqme9iSkVa/exec';
 
         // ==========================================
-        // 2. DATA TAMU CADANGAN (dengan waktu login)
+        // 2. DATA TAMU CADANGAN
         // ==========================================
-        const DATA_TAMU_CADANGAN = [
+        var DATA_TAMU_CADANGAN = [
             { no: 1, kategori: 'Keluarga Blabag', nama: 'Mas Heri', noHp: '081316333597', id: 'heri', kode: 'KB-001', status: 'Sudah', waktuLogin: '04/07/2026 14:30:25' },
             { no: 2, kategori: 'Keluarga Blabag', nama: 'Mas Yoto', noHp: '081000000000', id: 'yoto', kode: 'KB-002', status: '', waktuLogin: '' },
-            { no: 3, kategori: 'Keluarga Blabag', nama: 'Mas Mudi', noHp: '081200000000', id: 'mudi', kode: 'KB-003', status: 'Sudah', waktuLogin: '04/07/2026 15:10:02' },
-            { no: 4, kategori: 'Keluarga Blabag', nama: 'Mas Molan', noHp: '081300000000', id: 'molan', kode: 'KB-004', status: '', waktuLogin: '' }
+            { no: 3, kategori: 'Keluarga Blabag', nama: 'Mas Mudi', noHp: '081200000000', id: 'mudi', kode: 'KB-003', status: 'Sudah', waktuLogin: '04/07/2026 15:10:02' }
         ];
 
         // ==========================================
         // 3. STORAGE KEY
         // ==========================================
-        const STORAGE_KEY = 'bf_wedding_session';
-        const AMPLOP_KEY = 'bf_amplop_opened';
+        var STORAGE_KEY = 'bf_wedding_session';
+        var AMPLOP_KEY = 'bf_amplop_opened';
 
         // ==========================================
         // 4. ELEMEN DOM
         // ==========================================
-        const cover = document.getElementById('cover');
-        const amplopPage = document.getElementById('amplop-page');
-        const loginBtn = document.getElementById('loginBtn');
-        const loginError = document.getElementById('loginError');
-        const deviceWarning = document.getElementById('deviceWarning');
-        const inputId = document.getElementById('inputId');
-        const inputNoHp = document.getElementById('inputNoHp');
-        const inputKode = document.getElementById('inputKode');
-        const namaDisplay = document.getElementById('namaTamuDisplay');
-        const guestTarget = document.getElementById('guest-target');
-        const amplopGuestName = document.getElementById('amplopGuestName');
-        const pantunNamaAmplop = document.getElementById('pantunNamaAmplop');
-        const pantunNama = document.getElementById('pantunNama');
-        const waktuLoginText = document.getElementById('waktuLoginText');
+        var cover = document.getElementById('cover');
+        var amplopPage = document.getElementById('amplop-page');
+        var loginBtn = document.getElementById('loginBtn');
+        var loginError = document.getElementById('loginError');
+        var deviceWarning = document.getElementById('deviceWarning');
+        var inputId = document.getElementById('inputId');
+        var inputNoHp = document.getElementById('inputNoHp');
+        var inputKode = document.getElementById('inputKode');
+        var namaDisplay = document.getElementById('namaTamuDisplay');
+        var guestTarget = document.getElementById('guest-target');
+        var amplopGuestName = document.getElementById('amplopGuestName');
+        var pantunNama = document.getElementById('pantunNama');
+        var waktuLoginText = document.getElementById('waktuLoginText');
 
-        let currentNama = '';
-        let currentKode = '';
-        let currentId = '';
-        let currentWaktuLogin = '';
-        let isAmplopOpened = false;
-        let musicStarted = false;
+        var currentNama = '';
+        var currentKode = '';
+        var currentId = '';
+        var currentWaktuLogin = '';
+        var isAmplopOpened = false;
+        var musicStarted = false;
+        var countdownInterval = null;
 
         // ==========================================
         // 5. CEK SESSION DI localStorage
         // ==========================================
         function cekSession() {
-            const session = localStorage.getItem(STORAGE_KEY);
+            var session = localStorage.getItem(STORAGE_KEY);
             if (session) {
                 try {
-                    const data = JSON.parse(session);
+                    var data = JSON.parse(session);
                     if (data.expiry && Date.now() < data.expiry) {
                         currentNama = data.nama;
                         currentId = data.id;
@@ -1050,9 +1136,7 @@
             cover.classList.add('hidden');
             document.getElementById('main-scroll-screen').style.display = 'none';
             amplopPage.className = 'show';
-            
             amplopGuestName.textContent = 'Yth. ' + nama;
-            pantunNamaAmplop.textContent = nama;
         }
 
         // ==========================================
@@ -1066,27 +1150,22 @@
             
             amplopPage.className = 'hide';
             
-            setTimeout(() => {
+            setTimeout(function() {
                 amplopPage.style.display = 'none';
                 document.getElementById('main-scroll-screen').style.display = 'block';
                 
-                // Tampilkan nama dan waktu login
-                var waktuDisplay = currentWaktuLogin ? ' | ⏰ Login: ' + currentWaktuLogin : '';
-                namaDisplay.textContent = 'Selamat datang, ' + currentNama + '! (Kode: ' + currentKode + ')' + waktuDisplay;
+                namaDisplay.textContent = 'Selamat datang, ' + currentNama + '!';
                 guestTarget.textContent = 'Yth. ' + currentNama;
                 pantunNama.textContent = currentNama;
                 
-                // Tampilkan waktu login di bagian bawah
                 if (currentWaktuLogin) {
                     waktuLoginText.textContent = 'Login: ' + currentWaktuLogin + ' WIB';
                 } else {
                     waktuLoginText.textContent = '-- Belum tercatat --';
                 }
                 
-                // Play musik otomatis
                 playMusic();
-                
-                setTimeout(triggerFadeUpAnimations, 300);
+                setTimeout(triggerFadeUpAnimations, 400);
             }, 800);
         }
 
@@ -1098,8 +1177,7 @@
             amplopPage.style.display = 'none';
             document.getElementById('main-scroll-screen').style.display = 'block';
             
-            var waktuDisplay = currentWaktuLogin ? ' | ⏰ Login: ' + currentWaktuLogin : '';
-            namaDisplay.textContent = 'Selamat datang, ' + nama + '! (Kode: ' + currentKode + ')' + waktuDisplay;
+            namaDisplay.textContent = 'Selamat datang, ' + nama + '!';
             guestTarget.textContent = 'Yth. ' + nama;
             pantunNama.textContent = nama;
             
@@ -1110,7 +1188,7 @@
             }
             
             playMusic();
-            setTimeout(triggerFadeUpAnimations, 300);
+            setTimeout(triggerFadeUpAnimations, 400);
         }
 
         // ==========================================
@@ -1118,12 +1196,11 @@
         // ==========================================
         function playMusic() {
             if (!musicStarted) {
-                const audio = document.getElementById('main-wedding-audio');
+                var audio = document.getElementById('main-wedding-audio');
                 audio.volume = 0.7;
-                audio.play().catch(e => {
-                    console.log('Autoplay dicegah browser.');
+                audio.play().catch(function(e) {
                     document.addEventListener('click', function playOnClick() {
-                        audio.play().catch(() => {});
+                        audio.play().catch(function() {});
                         document.removeEventListener('click', playOnClick);
                     }, { once: true });
                 });
@@ -1133,12 +1210,12 @@
         }
 
         // ==========================================
-        // 10. FUNGSI PROSES LOGIN (DENGAN WAKTU)
+        // 10. FUNGSI PROSES LOGIN
         // ==========================================
         async function prosesLogin() {
-            const id = inputId.value.trim().toLowerCase();
-            const noHp = inputNoHp.value.trim();
-            const kode = inputKode.value.trim().toUpperCase();
+            var id = inputId.value.trim().toLowerCase();
+            var noHp = inputNoHp.value.trim();
+            var kode = inputKode.value.trim().toUpperCase();
 
             loginError.className = 'error-msg';
             loginError.textContent = '';
@@ -1166,7 +1243,7 @@
             loginBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Memverifikasi...';
 
             try {
-                const response = await fetch(APPS_SCRIPT_URL, {
+                var response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -1179,14 +1256,12 @@
                     })
                 });
 
-                const result = await response.json();
-                console.log('Response Apps Script:', result);
+                var result = await response.json();
 
                 if (result.status === 'success') {
-                    // Ambil waktu login dari response
                     var waktuLogin = result.waktuLogin || '';
                     
-                    const sessionData = {
+                    var sessionData = {
                         id: id,
                         nama: result.nama,
                         kode: kode,
@@ -1207,7 +1282,6 @@
                     loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
                     return;
                 } else {
-                    // Jika kode sudah digunakan, tampilkan waktu login sebelumnya
                     if (result.waktuLogin) {
                         loginError.textContent = '❌ ' + result.pesan + ' (Login: ' + result.waktuLogin + ')';
                     } else {
@@ -1222,11 +1296,9 @@
             } catch (error) {
                 console.warn('Apps Script error, pakai data cadangan:', error);
                 
-                const tamu = DATA_TAMU_CADANGAN.find(t => 
-                    t.id === id && 
-                    t.noHp === noHp && 
-                    t.kode === kode
-                );
+                var tamu = DATA_TAMU_CADANGAN.find(function(t) {
+                    return t.id === id && t.noHp === noHp && t.kode === kode;
+                });
 
                 if (!tamu) {
                     loginError.textContent = '❌ Data tidak ditemukan! Periksa ID, Nomor WA, dan KODE Anda.';
@@ -1245,12 +1317,11 @@
                     return;
                 }
 
-                // Buat waktu login saat ini untuk cadangan
                 var now = new Date();
                 var waktuLogin = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + 
                                 now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-                const sessionData = {
+                var sessionData = {
                     id: id,
                     nama: tamu.nama,
                     kode: kode,
@@ -1278,11 +1349,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('main-scroll-screen').style.display = 'none';
             
-            const sudahLogin = cekSession();
+            var sudahLogin = cekSession();
             
-            setTimeout(() => {
+            setTimeout(function() {
                 document.getElementById('loading-screen').style.opacity = '0';
-                setTimeout(() => {
+                setTimeout(function() {
                     document.getElementById('loading-screen').style.display = 'none';
                     if (!sudahLogin) {
                         cover.classList.remove('hidden');
@@ -1297,43 +1368,51 @@
         // ==========================================
         // 12. FUNGSI LAINNYA
         // ==========================================
-        const audio = document.getElementById('main-wedding-audio');
-        const scrollContainer = document.getElementById('main-scroll-screen');
+        var audio = document.getElementById('main-wedding-audio');
+        var scrollContainer = document.getElementById('main-scroll-screen');
 
         function navigateTo(event, targetId, element) {
             event.preventDefault();
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            var navs = document.querySelectorAll('.nav-item');
+            for (var i = 0; i < navs.length; i++) {
+                navs[i].classList.remove('active');
+            }
             element.classList.add('active');
             
-            const navContainer = document.querySelector('.bottom-nav');
-            const scrollPos = element.offsetLeft - (navContainer.clientWidth / 2) + (element.clientWidth / 2);
+            var navContainer = document.querySelector('.bottom-nav');
+            var scrollPos = element.offsetLeft - (navContainer.clientWidth / 2) + (element.offsetWidth / 2);
             navContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
 
-            const targetSection = document.getElementById(targetId);
+            var targetSection = document.getElementById(targetId);
             if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        const observerOptions = { root: scrollContainer, rootMargin: '0px', threshold: 0.4 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    document.querySelectorAll('.nav-item').forEach(nav => {
-                        nav.classList.remove('active');
-                        if (nav.getAttribute('href') === `#${id}`) {
-                            nav.classList.add('active');
-                            const navContainer = document.querySelector('.bottom-nav');
-                            const scrollPos = nav.offsetLeft - (navContainer.clientWidth / 2) + (nav.offsetWidth / 2);
+        var observerOptions = { root: scrollContainer, rootMargin: '0px', threshold: 0.4 };
+        var observer = new IntersectionObserver(function(entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting) {
+                    var id = entries[i].target.getAttribute('id');
+                    var navs = document.querySelectorAll('.nav-item');
+                    for (var j = 0; j < navs.length; j++) {
+                        navs[j].classList.remove('active');
+                        if (navs[j].getAttribute('href') === '#' + id) {
+                            navs[j].classList.add('active');
+                            var navContainer = document.querySelector('.bottom-nav');
+                            var scrollPos = navs[j].offsetLeft - (navContainer.clientWidth / 2) + (navs[j].offsetWidth / 2);
                             navContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
                         }
-                    });
+                    }
                 }
-            });
+            }
         }, observerOptions);
-        document.querySelectorAll('.phone-screen section').forEach(sec => observer.observe(sec));
+        
+        var sections = document.querySelectorAll('.phone-screen section');
+        for (var i = 0; i < sections.length; i++) {
+            observer.observe(sections[i]);
+        }
 
         function toggleAudio() {
-            const icon = document.getElementById('audioIcon');
+            var icon = document.getElementById('audioIcon');
             if (audio.paused) { 
                 audio.play(); 
                 icon.className = "fa-solid fa-circle-pause"; 
@@ -1355,19 +1434,22 @@
 
         scrollContainer.addEventListener('scroll', triggerFadeUpAnimations);
         function triggerFadeUpAnimations() {
-            const targets = document.querySelectorAll('.fade-up');
-            targets.forEach(target => {
-                if (target.getBoundingClientRect().top < scrollContainer.clientHeight * 0.95) {
-                    target.classList.add('visible');
+            var targets = document.querySelectorAll('.fade-up');
+            var containerHeight = scrollContainer.clientHeight;
+            for (var i = 0; i < targets.length; i++) {
+                var rect = targets[i].getBoundingClientRect();
+                if (rect.top < containerHeight * 0.95) {
+                    targets[i].classList.add('visible');
                 }
-            });
+            }
         }
 
         function initCountdown() {
-            const targetDate = new Date("Aug 1, 2026 09:00:00").getTime();
-            setInterval(() => {
-                const now = new Date().getTime();
-                const diff = targetDate - now;
+            var targetDate = new Date("Aug 1, 2026 09:00:00").getTime();
+            if (countdownInterval) clearInterval(countdownInterval);
+            countdownInterval = setInterval(function() {
+                var now = new Date().getTime();
+                var diff = targetDate - now;
                 if (diff > 0) {
                     document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
                     document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -1386,9 +1468,9 @@
         // ==========================================
         // 13. RSVP & COMMENTS
         // ==========================================
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxW5_9UoxIInG8L8ltvthWu2-Q5UREvsAz3rcgftB_P1XHEosRkEAMRQQ7aq7fZGMwd/exec';
-        const form = document.forms['rsvp-form'];
-        const submitBtn = document.getElementById('submit-btn');
+        var scriptURL = 'https://script.google.com/macros/s/AKfycbxW5_9UoxIInG8L8ltvthWu2-Q5UREvsAz3rcgftB_P1XHEosRkEAMRQQ7aq7fZGMwd/exec';
+        var form = document.forms['rsvp-form'];
+        var submitBtn = document.getElementById('submit-btn');
 
         function submitRSVP(e) {
             e.preventDefault();
@@ -1396,14 +1478,14 @@
             submitBtn.disabled = true;
 
             fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-                .then(response => {
+                .then(function(response) {
                     alert('Terima kasih! Pesan Anda berhasil dikirim.');
                     form.reset();
                     submitBtn.innerHTML = "Kirim Ucapan";
                     submitBtn.disabled = false;
                     loadComments();
                 })
-                .catch(error => {
+                .catch(function(error) {
                     alert('Terjadi kesalahan. Silakan coba lagi.');
                     submitBtn.innerHTML = "Kirim Ucapan";
                     submitBtn.disabled = false;
@@ -1411,33 +1493,28 @@
         }
 
         function loadComments() {
-            const box = document.getElementById('comments-box');
+            var box = document.getElementById('comments-box');
             fetch(scriptURL)
-                .then(res => res.json())
-                .then(data => {
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
                     box.innerHTML = '';
                     if (data.length === 0) {
                         box.innerHTML = '<p style="text-align:center; margin-top:20px; font-size:0.9rem;">Belum ada ucapan. Jadilah yang pertama!</p>';
                     }
-                    data.forEach(item => {
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
                         if (item.nama && item.ucapan) {
-                            let dateStr = "";
+                            var dateStr = "";
                             if (item.timestamp) {
-                                let d = new Date(item.timestamp);
+                                var d = new Date(item.timestamp);
                                 dateStr = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
                             }
-                            let labelKonfirmasi = item.konfirmasi ? `( <i class="fa-solid fa-check"></i> ${item.konfirmasi} )` : '';
-                            box.innerHTML += `
-                                <div class="comment-node">
-                                    <strong>${item.nama}</strong> <span>${labelKonfirmasi}</span>
-                                    <p>${item.ucapan}</p>
-                                    <div style="font-size:0.6rem; color:#888; margin-top:4px;">${dateStr}</div>
-                                </div>
-                            `;
+                            var labelKonfirmasi = item.konfirmasi ? '( <i class="fa-solid fa-check"></i> ' + item.konfirmasi + ' )' : '';
+                            box.innerHTML += '<div class="comment-node"><strong>' + item.nama + '</strong> <span>' + labelKonfirmasi + '</span><p>' + item.ucapan + '</p><div style="font-size:0.6rem; color:#888; margin-top:4px;">' + dateStr + '</div></div>';
                         }
-                    });
+                    }
                 })
-                .catch(err => {
+                .catch(function(err) {
                     box.innerHTML = '<p style="color:red; text-align:center;">Gagal memuat ucapan.</p>';
                 });
         }
@@ -1447,8 +1524,8 @@
         // ==========================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                const target = e.target;
-                if (['inputId', 'inputNoHp', 'inputKode'].includes(target.id)) {
+                var target = e.target;
+                if (target.id === 'inputId' || target.id === 'inputNoHp' || target.id === 'inputKode') {
                     prosesLogin();
                 }
             }
