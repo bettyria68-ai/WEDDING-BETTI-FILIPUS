@@ -39,7 +39,6 @@
             height: 100vh;
         }
 
-        /* Background gambar di luar frame iPhone */
         .outer-bg-image {
             position: fixed;
             top: 0;
@@ -50,7 +49,7 @@
             object-position: center;
             z-index: 1;
             filter: brightness(0.4) blur(4px);
-            transform: scale(1.02); /* Mencegah tepi kosong akibat efek blur */
+            transform: scale(1.02);
         }
 
         .sparkle-overlay {
@@ -64,7 +63,6 @@
             background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 100%);
         }
 
-        /* iPhone 13 Pro Frame */
         .iphone-container {
             position: relative;
             width: 412px;
@@ -93,7 +91,6 @@
             z-index: 9999;
         }
 
-        /* Video Dalam Frame */
         .inner-bg-video {
             position: absolute;
             top: 0;
@@ -105,7 +102,6 @@
             pointer-events: none;
         }
 
-        /* Scroll Area Undangan */
         .phone-screen {
             position: relative;
             width: 100%;
@@ -118,7 +114,6 @@
         }
         .phone-screen::-webkit-scrollbar { display: none; }
 
-        /* LOADING & COVER SECTION (DIKUNCI) */
         #loading-screen {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -142,21 +137,144 @@
             animation: pulse 2s infinite alternate;
         }
 
-        /* Cover Positioned Absolute so it blocks scrolling */
+        /* ===== COVER DENGAN FORM LOGIN ===== */
         #cover {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65));
             z-index: 5000;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 80px 20px;
+            padding: 40px 20px 30px 20px;
             transition: transform 1s ease-in-out, opacity 1s ease;
             backdrop-filter: blur(5px);
         }
+        #cover.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
 
+        .cover-header {
+            text-align: center;
+            color: var(--ivory);
+        }
+        .cover-header .sub-label {
+            letter-spacing: 4px;
+            font-size: 0.7rem;
+            text-shadow: 1px 1px 4px #000;
+            color: var(--light-gold);
+        }
+        .cover-header h1 {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin: 8px 0;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .cover-header #guest-target {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        /* ===== FORM LOGIN ===== */
+        .login-form {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px 20px;
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .login-form h3 {
+            color: var(--primary-gold);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.92);
+            font-size: 0.9rem;
+            color: #222;
+            transition: all 0.3s ease;
+        }
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+        }
+        .login-form input::placeholder {
+            color: #999;
+        }
+        .login-form .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-gold), #b8962a);
+            color: #1a1a1a;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+        .login-form .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+        .login-form .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .login-form .error-msg {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            text-align: center;
+            min-height: 24px;
+            margin-bottom: 8px;
+            background: rgba(255,0,0,0.12);
+            border-radius: 8px;
+            padding: 6px;
+            display: none;
+        }
+        .login-form .error-msg.show {
+            display: block;
+        }
+        .login-form .info-text {
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.65rem;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .cover-footer {
+            text-align: center;
+            color: #ddd;
+            font-size: 0.7rem;
+            font-style: italic;
+            text-shadow: 1px 1px 3px #000;
+            padding-bottom: 5px;
+        }
+
+        /* ===== SECTION STANDAR ===== */
         section {
             position: relative;
             width: 100%;
@@ -220,7 +338,7 @@
             color: #000;
         }
 
-        /* Navigasi Baru (Ada Teks, Auto Scroll horizontal, Active State) */
+        /* Navigasi */
         .bottom-nav {
             position: absolute;
             bottom: 0;
@@ -268,7 +386,6 @@
             transform: translateY(-2px);
         }
 
-        /* Floating Audio Controller */
         .audio-control {
             position: absolute;
             bottom: 85px;
@@ -306,28 +423,21 @@
         .countdown-box span { display: block; font-size: 1.5rem; font-weight: bold;}
         .timeline { border-left: 2px solid var(--primary-gold); padding-left: 15px; text-align: left; margin: 15px 0;}
 
-        /* Masonry Gallery */
         .masonry-grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 10px; width: 100%;}
         .masonry-item { position: relative; overflow: hidden; border-radius: 8px; cursor: pointer;}
         .masonry-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease;}
         .masonry-item:hover img { transform: scale(1.05);}
 
-        /* RSVP Forms */
         .comment-input, .comment-select, .comment-textarea { width: 100%; padding: 10px; margin: 6px 0; border-radius: 8px; border: 1px solid #ccc; background: rgba(255,255,255,0.9); font-family: inherit;}
-        
-        /* Comments Display Area */
         .comments-display { width: 100%; height: 250px; overflow-y: auto; text-align: left; margin-top: 15px; background: rgba(255,255,255,0.7); border-radius: 8px; padding: 10px;}
         .comment-node { border-bottom: 1px solid rgba(0,0,0,0.1); padding: 8px 0;}
         .comment-node strong { color: #333; font-size: 0.9rem;}
         .comment-node span { font-size: 0.65rem; color: #777; margin-left: 5px; display:inline-block;}
         .comment-node p { font-size: 0.85rem; margin-top: 4px; color: #111; font-weight: bold;}
 
-        /* Lightbox CSS */
         .lightbox { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 10001; display: none; justify-content: center; align-items: center; padding: 20px;}
         .lightbox img { max-width: 100%; max-height: 80%; border-radius: 8px;}
 
-        /* Typography */
-        /* Nama tamu harus selalu tampil utuh, termasuk gelar yang panjang */
         .typewriter {
             width: 100%;
             max-width: 100%;
@@ -342,17 +452,11 @@
             border-right: none;
             animation: none;
         }
-        #guest-target {
-            font-size: clamp(0.85rem, 3.6vw, 1.1rem) !important;
-        }
         
         .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease;}
         .fade-up.visible { opacity: 1; transform: translateY(0);}
         @keyframes pulse { from {transform: scale(0.95); opacity:0.8;} to {transform: scale(1.05); opacity:1;} }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--primary-gold); } }
 
-        /* Style untuk Foto Profil Mempelai (Oval Frame) */
         .profile-card {
             display: flex;
             align-items: center;
@@ -365,15 +469,37 @@
             width: 90px;
             height: 120px;
             object-fit: cover;
-            border-radius: 50%; /* Membuat efek oval/elips */
+            border-radius: 50%;
             border: 3px solid var(--primary-gold);
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 480px) {
+            .iphone-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+                box-shadow: none;
+                max-width: 100%;
+                max-height: 100%;
+            }
+            .iphone-notch { display: none; }
+            .bottom-nav {
+                border-radius: 0;
+                height: 60px;
+                gap: 12px;
+                padding: 0 10px;
+            }
+            .nav-item i { font-size: 1rem; }
+            .nav-item span { font-size: 0.45rem; }
+            .cover-header h1 { font-size: 2.5rem; }
+            .login-form { padding: 20px 15px; }
+            .glass-panel { padding: 18px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- Background gambar di luar frame iPhone 13 Pro -->
     <img class="outer-bg-image" src="./assets/BG OUT FRAME.png" alt="Background undangan">
     <div class="sparkle-overlay"></div>
 
@@ -389,29 +515,45 @@
             <p style="letter-spacing:3px; font-size:0.8rem;">LOADING EXPERIENCE</p>
         </div>
 
+        <!-- ===== COVER DENGAN LOGIN ===== -->
         <div id="cover">
-            <div style="margin-top: 40px; text-align: center; color: var(--ivory);">
-                <p style="letter-spacing: 4px; font-size: 0.8rem; text-shadow: 1px 1px 4px #000;">THE WEDDING OF</p>
-                <h1 style="font-size: 3.8rem; color: var(--primary-gold); margin: 15px 0; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">Betti & Filipus</h1>
+            <div class="cover-header">
+                <p class="sub-label">THE WEDDING OF</p>
+                <h1>Betti &amp; Filipus</h1>
+                <p id="guest-target" class="typewriter">Yth. Tamu Undangan</p>
             </div>
 
-            <div class="glass-panel" style="background: rgba(255,255,255,0.8);">
-                <p id="guest-target" class="typewriter" style="font-weight: bold; font-size: 1.1rem; color: #000;">Yth. Tamu Undangan</p>
-                <p style="font-size: 0.75rem; margin-top: 10px; color: #222;">Kami memohon maaf apabila terdapat kesalahan dalam penulisan nama dan gelar Bapak/Ibu/Saudara/i.</p>
-                <button type="button" class="btn-premium" onclick="openInvitation()"><i class="fa-solid fa-envelope-open" style="margin-right: 8px;"></i>Buka Undangan</button>
+            <div class="login-form" id="loginForm">
+                <h3>🔐 Verifikasi Tamu</h3>
+                
+                <div class="error-msg" id="loginError"></div>
+                
+                <input type="text" id="inputId" placeholder="ID (contoh: heri)" style="text-transform:lowercase;">
+                <input type="tel" id="inputNoHp" placeholder="Nomor WA (contoh: 081316333597)">
+                <input type="text" id="inputKode" placeholder="Kode Undangan (contoh: KB-001)" style="text-transform:uppercase;">
+                
+                <button class="login-btn" id="loginBtn" onclick="prosesLogin()">
+                    <i class="fa-solid fa-unlock"></i> Buka Undangan
+                </button>
+                
+                <p class="info-text">
+                    <i class="fa-regular fa-circle-check"></i> Masukkan ID, Nomor WA, dan Kode Undangan
+                </p>
             </div>
-            
-            <div style="text-align: center; color: #eee; font-size: 0.8rem; font-style: italic; text-shadow: 1px 1px 3px #000;">
+
+            <div class="cover-footer">
                 <p>"Mangun Suci Mring Wardaya, Amemangun Haryaning Jagad"</p>
             </div>
         </div>
 
+        <!-- ===== ISI UNDANGAN ===== -->
         <div class="phone-screen" id="main-scroll-screen">
             
             <section id="beranda" class="fade-up" style="padding-top:120px;">
                 <div class="glass-panel">
                     <h2 class="gold-title">Selamat Datang</h2>
                     <p style="font-size: 0.9rem; line-height: 1.6;">“Kami bukan dua insan yang sempurna, biarlah kasih yang menyempurnakan segalanya.”</p>
+                    <p style="margin-top:10px; font-size:0.85rem; color:#555; font-weight:600;" id="namaTamuDisplay"></p>
                 </div>
             </section>
 
@@ -516,14 +658,12 @@
                         <div class="masonry-item" onclick="openLightbox('./assets/GALERI 6.png')"><img src="./assets/GALERI 6.png" alt="Galeri"></div>
                     </div>
 
-                    <!-- REVISI 3: Video Bg_Bergerak jadi yang pertama -->
                     <div style="margin-top: 15px; border-radius: 8px; overflow: hidden; border:1px solid var(--primary-gold);">
                         <video width="100%" controls onplay="pauseMainMusic()" onpause="resumeMainMusic()" onended="resumeMainMusic()">
                             <source src="./assets/Bg_Bergerak.mp4" type="video/mp4">
                         </video>
                     </div>
                     
-                    <!-- REVISI 3: VIDEO GALERI jadi yang kedua -->
                     <div style="margin-top: 15px; border-radius: 8px; overflow: hidden; border:1px solid var(--primary-gold);">
                         <video width="100%" controls onplay="pauseMainMusic()" onpause="resumeMainMusic()" onended="resumeMainMusic()">
                             <source src="assets/VIDEO GALERI.mp4" type="video/mp4">
@@ -588,6 +728,7 @@
 
         </div> 
         
+        <!-- Navigasi Bawah -->
         <div class="bottom-nav">
             <a class="nav-item active" href="#beranda" onclick="navigateTo(event, 'beranda', this)">
                 <i class="fa-solid fa-house"></i><span>Beranda</span>
@@ -632,63 +773,187 @@
         <source src="./assets/Menjemput Impian (online-video-cutter.com).mp3" type="audio/mp3">
     </audio>
 
+    <!-- ========================================== -->
+    <!-- SCRIPT LENGKAP DENGAN URL APPS SCRIPT ANDA -->
+    <!-- ========================================== -->
     <script>
         // ==========================================
-        // URL GOOGLE APPS SCRIPT SUDAH DIHUBUNGKAN
+        // 1. KONFIGURASI URL APPS SCRIPT
+        //    SUDAH MENGGUNAKAN URL TERBARU ANDA
         // ==========================================
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxW5_9UoxIInG8L8ltvthWu2-Q5UREvsAz3rcgftB_P1XHEosRkEAMRQQ7aq7fZGMwd/exec'; 
-        // ==========================================
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzc75qtUrGJHnr6P4eJaEgr3CNEDBsFHimnKBLb_ws9XN-ZB_EiJmVtkh-rklPXaCe5/exec';
 
+        // ==========================================
+        // 2. DATA TAMU STATIS (SEBAGAI CADANGAN)
+        // ==========================================
+        const DATA_TAMU_CADANGAN = [
+            { id: 'heri', noHp: '081316333597', kode: 'KB-001', nama: 'Mas Heri' },
+            { id: 'yoto', noHp: '081000000000', kode: 'KB-002', nama: 'Mas Yoto' }
+        ];
+        let STATUS_LOGIN_CADANGAN = {};
+
+        // ==========================================
+        // 3. ELEMEN DOM
+        // ==========================================
+        const cover = document.getElementById('cover');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
+        const inputId = document.getElementById('inputId');
+        const inputNoHp = document.getElementById('inputNoHp');
+        const inputKode = document.getElementById('inputKode');
+        const namaDisplay = document.getElementById('namaTamuDisplay');
+        const guestTarget = document.getElementById('guest-target');
+
+        // ==========================================
+        // 4. FUNGSI PROSES LOGIN DENGAN FETCH
+        // ==========================================
+        async function prosesLogin() {
+            const id = inputId.value.trim().toLowerCase();
+            const noHp = inputNoHp.value.trim();
+            const kode = inputKode.value.trim().toUpperCase();
+
+            // Reset error
+            loginError.className = 'error-msg';
+            loginError.textContent = '';
+
+            // Validasi
+            if (!id || !noHp || !kode) {
+                loginError.textContent = '⚠️ ID, Nomor WA, dan KODE harus diisi!';
+                loginError.className = 'error-msg show';
+                return;
+            }
+
+            if (!/^[0-9]{10,13}$/.test(noHp)) {
+                loginError.textContent = '❌ Nomor WA harus 10-13 digit angka!';
+                loginError.className = 'error-msg show';
+                return;
+            }
+
+            if (!/^[A-Z]{2,3}-\d{3}$/.test(kode)) {
+                loginError.textContent = '❌ Format kode: XX-000 (contoh: KB-001)';
+                loginError.className = 'error-msg show';
+                return;
+            }
+
+            // Loading state
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Memverifikasi...';
+
+            try {
+                // ==========================================
+                // PAKAI APPS SCRIPT
+                // ==========================================
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        action: 'login',
+                        id: id,
+                        noHp: noHp,
+                        kode: kode
+                    })
+                });
+
+                const result = await response.json();
+                console.log('Response Apps Script:', result);
+
+                if (result.status === 'success') {
+                    // === LOGIN BERHASIL ===
+                    loginBerhasil(result.nama, id);
+                    return;
+                } else {
+                    // === LOGIN GAGAL DARI APPS SCRIPT ===
+                    loginError.textContent = '❌ ' + result.pesan;
+                    loginError.className = 'error-msg show';
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
+                    return;
+                }
+
+            } catch (error) {
+                // ==========================================
+                // JIKA APPS SCRIPT GAGAL, PAKAI CADANGAN
+                // ==========================================
+                console.warn('Apps Script error, pakai data cadangan:', error);
+                
+                // Cari di data cadangan
+                const tamu = DATA_TAMU_CADANGAN.find(t => 
+                    t.id === id && 
+                    t.noHp === noHp && 
+                    t.kode === kode
+                );
+
+                if (!tamu) {
+                    loginError.textContent = '❌ Data tidak ditemukan! Periksa ID, Nomor WA, dan KODE Anda.';
+                    loginError.className = 'error-msg show';
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
+                    return;
+                }
+
+                if (STATUS_LOGIN_CADANGAN[kode]) {
+                    loginError.textContent = '⚠️ Kode ini sudah digunakan!';
+                    loginError.className = 'error-msg show';
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
+                    return;
+                }
+
+                STATUS_LOGIN_CADANGAN[kode] = true;
+                loginBerhasil(tamu.nama, id);
+            }
+        }
+
+        // ==========================================
+        // 5. FUNGSI LOGIN BERHASIL
+        // ==========================================
+        function loginBerhasil(nama, id) {
+            // Update text "Yth." di cover dengan nama tamu
+            guestTarget.textContent = 'Yth. ' + nama;
+            
+            // Tampilkan nama di bagian selamat datang
+            namaDisplay.textContent = 'Selamat datang, ' + nama + '!';
+            
+            // Sembunyikan cover
+            cover.classList.add('hidden');
+            
+            // Play audio
+            const audio = document.getElementById('main-wedding-audio');
+            audio.volume = 0.7;
+            audio.play().catch(e => console.log('Autoplay dicegah browser.'));
+
+            // Trigger animasi
+            setTimeout(triggerFadeUpAnimations, 300);
+
+            // Reset button
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
+        }
+
+        // ==========================================
+        // 6. FUNGSI LAINNYA
+        // ==========================================
         const audio = document.getElementById('main-wedding-audio');
         const scrollContainer = document.getElementById('main-scroll-screen');
 
+        // Loading screen
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 document.getElementById('loading-screen').style.opacity = '0';
                 setTimeout(() => document.getElementById('loading-screen').style.display = 'none', 800);
             }, 1500);
-            parseGuestName();
             initCountdown();
-            if(scriptURL !== 'ISI_DENGAN_URL_WEB_APP_DARI_LANGKAH_A4'){
-                loadComments(); // Fetch live comments dari Google Sheet
-            } else {
-                document.getElementById('comments-box').innerHTML = "<div style='text-align:center; padding:10px; font-size:0.8rem;'><i>*Sistem live comment membutuhkan URL Apps Script Google Sheets Anda. Silakan ikuti petunjuk.*</i></div>";
-            }
+            loadComments();
         });
 
-        function parseGuestName() {
-            const params = new URLSearchParams(window.location.search);
-            const guestName = params.get('to');
-            if(guestName) document.getElementById('guest-target').innerText = "Yth. " + decodeURIComponent(guestName);
-        }
-
-        // FUNGSI COVER SLIDE UP & PLAY AUDIO DENGAN VALIDASI PERANGKAT
-        function openInvitation() {
-    // Cek apakah perangkat sudah pernah membuka undangan sebelumnya
-    if (localStorage.getItem('undangan_dibuka')) {
-        // Jika sudah pernah dibuka, langsung arahkan ke isi undangan
-        // atau Anda bisa memberi peringatan/pesan jika ingin memblokir total.
-        // Di bawah ini adalah logika agar undangan tetap terbuka namun sudah ditandai.
-    } else {
-        // Jika baru pertama kali, beri tanda di browser
-         localStorage.setItem('undangan_dibuka', 'true');
-         }
-
-         const cover = document.getElementById('cover');
-         cover.style.transform = 'translateY(-100%)';
-         audio.volume = 0.7;
-         audio.play().catch(e => console.log("Autoplay dicegah browser."));
-         triggerFadeUpAnimations();
-         setTimeout(() => cover.style.display = 'none', 1000);
-        }
-
-        // FUNGSI KLIK MENU SCROLL & HIGHLIGHT
+        // Navigasi
         function navigateTo(event, targetId, element) {
             event.preventDefault();
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
             
-            // Auto Scroll Navigation Bar
             const navContainer = document.querySelector('.bottom-nav');
             const scrollPos = element.offsetLeft - (navContainer.clientWidth / 2) + (element.clientWidth / 2);
             navContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
@@ -697,35 +962,27 @@
             if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // AUTO HIGHLIGHT & AUTO SCROLL MENU SAAT SCROLL
+        // Auto highlight nav
         const observerOptions = { root: scrollContainer, rootMargin: '0px', threshold: 0.4 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if(entry.isIntersecting) {
+                if (entry.isIntersecting) {
                     const id = entry.target.getAttribute('id');
-                    let activeElement = null;
-
                     document.querySelectorAll('.nav-item').forEach(nav => {
                         nav.classList.remove('active');
                         if (nav.getAttribute('href') === `#${id}`) {
                             nav.classList.add('active');
-                            activeElement = nav;
+                            const navContainer = document.querySelector('.bottom-nav');
+                            const scrollPos = nav.offsetLeft - (navContainer.clientWidth / 2) + (nav.offsetWidth / 2);
+                            navContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
                         }
                     });
-
-                    // Logika untuk menggeser menu secara otomatis mengikuti section yang aktif
-                    if (activeElement) {
-                        const navContainer = document.querySelector('.bottom-nav');
-                        // Menghitung posisi agar elemen aktif berada di tengah navbar
-                        const scrollPos = activeElement.offsetLeft - (navContainer.clientWidth / 2) + (activeElement.clientWidth / 2);
-                        navContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
-                    }
                 }
             });
         }, observerOptions);
         document.querySelectorAll('.phone-screen section').forEach(sec => observer.observe(sec));
 
-        // AUDIO CONTROLS
+        // Audio
         function toggleAudio() {
             const icon = document.getElementById('audioIcon');
             if (audio.paused) { audio.play(); icon.className = "fa-solid fa-circle-pause"; } 
@@ -735,24 +992,24 @@
         function pauseMainMusic() { audio.pause(); document.getElementById('audioIcon').className = "fa-solid fa-circle-play"; }
         function resumeMainMusic() { audio.play(); document.getElementById('audioIcon').className = "fa-solid fa-circle-pause"; }
 
-        // ANIMASI MUNCUL SAAT SCROLL
+        // Fade up
         scrollContainer.addEventListener('scroll', triggerFadeUpAnimations);
         function triggerFadeUpAnimations() {
             const targets = document.querySelectorAll('.fade-up');
             targets.forEach(target => {
-                if(target.getBoundingClientRect().top < scrollContainer.clientHeight * 0.95) {
+                if (target.getBoundingClientRect().top < scrollContainer.clientHeight * 0.95) {
                     target.classList.add('visible');
                 }
             });
         }
 
-        // WAKTU COUNTDOWN
+        // Countdown
         function initCountdown() {
             const targetDate = new Date("Aug 1, 2026 09:00:00").getTime();
             setInterval(() => {
                 const now = new Date().getTime();
                 const diff = targetDate - now;
-                if(diff > 0) {
+                if (diff > 0) {
                     document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
                     document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -761,33 +1018,32 @@
             }, 1000);
         }
 
-        // LIGHTBOX GALERI
+        // Lightbox
         function openLightbox(src) {
             document.getElementById('lightboxImg').src = src;
             document.getElementById('lightboxGal').style.display = 'flex';
         }
         function closeLightbox() { document.getElementById('lightboxGal').style.display = 'none'; }
 
-        // GOOGLE SHEETS FETCH (GET & POST)
+        // ==========================================
+        // 7. RSVP & COMMENTS
+        // ==========================================
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxW5_9UoxIInG8L8ltvthWu2-Q5UREvsAz3rcgftB_P1XHEosRkEAMRQQ7aq7fZGMwd/exec';
         const form = document.forms['rsvp-form'];
         const submitBtn = document.getElementById('submit-btn');
 
         function submitRSVP(e) {
             e.preventDefault();
-            if(scriptURL === 'ISI_DENGAN_URL_WEB_APP_DARI_LANGKAH_A4') {
-                alert("Sistem belum dihubungkan dengan Google Apps Script.");
-                return;
-            }
             submitBtn.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Mengirim...";
             submitBtn.disabled = true;
 
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
                 .then(response => {
-                    alert('Terima kasih! Pesan dan konfirmasi Anda berhasil dikirim.');
+                    alert('Terima kasih! Pesan Anda berhasil dikirim.');
                     form.reset();
                     submitBtn.innerHTML = "Kirim Ucapan";
                     submitBtn.disabled = false;
-                    loadComments(); // Refresh daftar komentar
+                    loadComments();
                 })
                 .catch(error => {
                     alert('Terjadi kesalahan. Silakan coba lagi.');
@@ -802,13 +1058,13 @@
                 .then(res => res.json())
                 .then(data => {
                     box.innerHTML = '';
-                    if(data.length === 0) {
+                    if (data.length === 0) {
                         box.innerHTML = '<p style="text-align:center; margin-top:20px; font-size:0.9rem;">Belum ada ucapan. Jadilah yang pertama!</p>';
                     }
                     data.forEach(item => {
-                        if(item.nama && item.ucapan) {
+                        if (item.nama && item.ucapan) {
                             let dateStr = "";
-                            if(item.timestamp) {
+                            if (item.timestamp) {
                                 let d = new Date(item.timestamp);
                                 dateStr = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
                             }
@@ -827,6 +1083,28 @@
                     box.innerHTML = '<p style="color:red; text-align:center;">Gagal memuat ucapan.</p>';
                 });
         }
+
+        // ==========================================
+        // 8. ENTER KEY UNTUK LOGIN
+        // ==========================================
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const target = e.target;
+                if (['inputId', 'inputNoHp', 'inputKode'].includes(target.id)) {
+                    prosesLogin();
+                }
+            }
+        });
+
+        // Auto lowercase untuk ID
+        inputId.addEventListener('input', function() {
+            this.value = this.value.toLowerCase();
+        });
+
+        // Auto uppercase untuk kode
+        inputKode.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
     </script>
 </body>
 </html>
