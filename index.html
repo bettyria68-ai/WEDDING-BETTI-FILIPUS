@@ -419,6 +419,38 @@
             text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
         }
 
+        .pantun-welcome {
+            font-size: 1rem;
+            line-height: 2.2;
+            color: #1a1a1a;
+            font-style: italic;
+            background: rgba(255,255,255,0.3);
+            padding: 20px 25px;
+            border-radius: 16px;
+            margin: 15px 0;
+            border-left: 3px solid var(--primary-gold);
+            font-weight: 500;
+        }
+        .pantun-welcome .highlight-name {
+            color: var(--primary-gold);
+            font-weight: 700;
+            font-style: normal;
+        }
+        .waktu-login-info {
+            font-size: 0.75rem;
+            color: #555;
+            margin-top: 8px;
+            font-weight: 400;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .waktu-login-info i {
+            color: var(--primary-gold);
+            margin-right: 5px;
+        }
+
         .btn-premium {
             background: linear-gradient(135deg, #2c2c2c 0%, #111111 100%);
             color: var(--ivory);
@@ -676,11 +708,11 @@
                 
                 <div class="guest-name-display" id="amplopGuestName">Yth. Tamu Undangan</div>
                 
-                <div class="pantun" id="pantunDisplay">
+                <div class="pantun" id="pantunAmplop">
                     Bunga melati tumbuh di taman,<br>
                     Semerbak harum menyapa pagi.<br>
                     Selamat datang kami ucapkan,<br>
-                    Kepada <span class="highlight-name" id="pantunNama">Tamu Undangan</span> yang kami hormati.
+                    Kepada <span class="highlight-name" id="pantunNamaAmplop">Tamu Undangan</span> yang kami hormati.
                 </div>
                 
                 <button class="btn-buka-amplop" onclick="bukaAmplop()">
@@ -695,8 +727,16 @@
             <section id="beranda" class="fade-up" style="padding-top:120px;">
                 <div class="glass-panel">
                     <h2 class="gold-title">Selamat Datang</h2>
-                    <p style="font-size: 0.9rem; line-height: 1.6;">“Kami bukan dua insan yang sempurna, biarlah kasih yang menyempurnakan segalanya.”</p>
+                    <div class="pantun-welcome">
+                        Bunga melati tumbuh di taman,<br>
+                        Semerbak harum menyapa pagi.<br>
+                        Selamat datang kami ucapkan,<br>
+                        Kepada <span class="highlight-name" id="pantunNama">Tamu Undangan</span> yang kami hormati.
+                    </div>
                     <p style="margin-top:10px; font-size:0.85rem; color:#555; font-weight:600;" id="namaTamuDisplay"></p>
+                    <div class="waktu-login-info" id="waktuLoginDisplay">
+                        <i class="fa-regular fa-clock"></i> <span id="waktuLoginText">--</span>
+                    </div>
                 </div>
             </section>
 
@@ -920,7 +960,7 @@
     </audio>
 
     <!-- ========================================== -->
-    <!-- SCRIPT LENGKAP                             -->
+    <!-- SCRIPT LENGKAP DENGAN WAKTU LOGIN          -->
     <!-- ========================================== -->
     <script>
         // ==========================================
@@ -929,13 +969,13 @@
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhbHdd8OUn_2zyZxxcBWkuufHN-54o4xSBN0QdsH8xzF2KjgiBbFdlEQ4iROm6Ex9e/exec';
 
         // ==========================================
-        // 2. DATA TAMU CADANGAN
+        // 2. DATA TAMU CADANGAN (dengan waktu login)
         // ==========================================
         const DATA_TAMU_CADANGAN = [
-            { no: 1, kategori: 'Keluarga Blabag', nama: 'Mas Heri', noHp: '081316333597', id: 'heri', kode: 'KB-001', status: 'Sudah' },
-            { no: 2, kategori: 'Keluarga Blabag', nama: 'Mas Yoto', noHp: '081000000000', id: 'yoto', kode: 'KB-002', status: '' },
-            { no: 3, kategori: 'Keluarga Blabag', nama: 'Mas Mudi', noHp: '081200000000', id: 'mudi', kode: 'KB-003', status: 'Sudah' },
-            { no: 4, kategori: 'Keluarga Blabag', nama: 'Mas Molan', noHp: '081300000000', id: 'molan', kode: 'KB-004', status: '' }
+            { no: 1, kategori: 'Keluarga Blabag', nama: 'Mas Heri', noHp: '081316333597', id: 'heri', kode: 'KB-001', status: 'Sudah', waktuLogin: '04/07/2026 14:30:25' },
+            { no: 2, kategori: 'Keluarga Blabag', nama: 'Mas Yoto', noHp: '081000000000', id: 'yoto', kode: 'KB-002', status: '', waktuLogin: '' },
+            { no: 3, kategori: 'Keluarga Blabag', nama: 'Mas Mudi', noHp: '081200000000', id: 'mudi', kode: 'KB-003', status: 'Sudah', waktuLogin: '04/07/2026 15:10:02' },
+            { no: 4, kategori: 'Keluarga Blabag', nama: 'Mas Molan', noHp: '081300000000', id: 'molan', kode: 'KB-004', status: '', waktuLogin: '' }
         ];
 
         // ==========================================
@@ -958,11 +998,14 @@
         const namaDisplay = document.getElementById('namaTamuDisplay');
         const guestTarget = document.getElementById('guest-target');
         const amplopGuestName = document.getElementById('amplopGuestName');
+        const pantunNamaAmplop = document.getElementById('pantunNamaAmplop');
         const pantunNama = document.getElementById('pantunNama');
+        const waktuLoginText = document.getElementById('waktuLoginText');
 
         let currentNama = '';
         let currentKode = '';
         let currentId = '';
+        let currentWaktuLogin = '';
         let isAmplopOpened = false;
         let musicStarted = false;
 
@@ -978,15 +1021,13 @@
                         currentNama = data.nama;
                         currentId = data.id;
                         currentKode = data.kode;
+                        currentWaktuLogin = data.waktuLogin || '';
                         
-                        // Cek apakah amplop sudah pernah dibuka
                         isAmplopOpened = localStorage.getItem(AMPLOP_KEY) === 'true';
                         
                         if (isAmplopOpened) {
-                            // Langsung ke konten undangan
                             langsungKeUndangan(data.nama);
                         } else {
-                            // Tampilkan amplop
                             tampilkanAmplop(data.nama);
                         }
                         return true;
@@ -1006,18 +1047,12 @@
         // 6. FUNGSI TAMPILKAN AMPLOP
         // ==========================================
         function tampilkanAmplop(nama) {
-            // Sembunyikan cover
             cover.classList.add('hidden');
-            
-            // Sembunyikan konten utama
             document.getElementById('main-scroll-screen').style.display = 'none';
-            
-            // Tampilkan amplop
             amplopPage.className = 'show';
             
-            // Update nama di amplop
             amplopGuestName.textContent = 'Yth. ' + nama;
-            pantunNama.textContent = nama;
+            pantunNamaAmplop.textContent = nama;
         }
 
         // ==========================================
@@ -1033,35 +1068,48 @@
             
             setTimeout(() => {
                 amplopPage.style.display = 'none';
-                // Tampilkan konten undangan
                 document.getElementById('main-scroll-screen').style.display = 'block';
                 
-                // Update nama di selamat datang
-                namaDisplay.textContent = 'Selamat datang, ' + currentNama + '! (Kode: ' + currentKode + ')';
+                // Tampilkan nama dan waktu login
+                var waktuDisplay = currentWaktuLogin ? ' | ⏰ Login: ' + currentWaktuLogin : '';
+                namaDisplay.textContent = 'Selamat datang, ' + currentNama + '! (Kode: ' + currentKode + ')' + waktuDisplay;
                 guestTarget.textContent = 'Yth. ' + currentNama;
+                pantunNama.textContent = currentNama;
+                
+                // Tampilkan waktu login di bagian bawah
+                if (currentWaktuLogin) {
+                    waktuLoginText.textContent = 'Login: ' + currentWaktuLogin + ' WIB';
+                } else {
+                    waktuLoginText.textContent = '-- Belum tercatat --';
+                }
                 
                 // Play musik otomatis
                 playMusic();
                 
-                // Trigger animasi fade up
                 setTimeout(triggerFadeUpAnimations, 300);
             }, 800);
         }
 
         // ==========================================
-        // 8. FUNGSI LANGSUNG KE UNDANGAN (jika amplop sudah dibuka)
+        // 8. FUNGSI LANGSUNG KE UNDANGAN
         // ==========================================
         function langsungKeUndangan(nama) {
             cover.classList.add('hidden');
             amplopPage.style.display = 'none';
             document.getElementById('main-scroll-screen').style.display = 'block';
             
-            namaDisplay.textContent = 'Selamat datang, ' + nama + '! (Kode: ' + currentKode + ')';
+            var waktuDisplay = currentWaktuLogin ? ' | ⏰ Login: ' + currentWaktuLogin : '';
+            namaDisplay.textContent = 'Selamat datang, ' + nama + '! (Kode: ' + currentKode + ')' + waktuDisplay;
             guestTarget.textContent = 'Yth. ' + nama;
+            pantunNama.textContent = nama;
             
-            // Play musik otomatis
+            if (currentWaktuLogin) {
+                waktuLoginText.textContent = 'Login: ' + currentWaktuLogin + ' WIB';
+            } else {
+                waktuLoginText.textContent = '-- Belum tercatat --';
+            }
+            
             playMusic();
-            
             setTimeout(triggerFadeUpAnimations, 300);
         }
 
@@ -1073,8 +1121,7 @@
                 const audio = document.getElementById('main-wedding-audio');
                 audio.volume = 0.7;
                 audio.play().catch(e => {
-                    console.log('Autoplay dicegah browser. Tunggu interaksi user.');
-                    // Coba lagi saat user klik di mana saja
+                    console.log('Autoplay dicegah browser.');
                     document.addEventListener('click', function playOnClick() {
                         audio.play().catch(() => {});
                         document.removeEventListener('click', playOnClick);
@@ -1086,7 +1133,7 @@
         }
 
         // ==========================================
-        // 10. FUNGSI PROSES LOGIN
+        // 10. FUNGSI PROSES LOGIN (DENGAN WAKTU)
         // ==========================================
         async function prosesLogin() {
             const id = inputId.value.trim().toLowerCase();
@@ -1136,10 +1183,14 @@
                 console.log('Response Apps Script:', result);
 
                 if (result.status === 'success') {
+                    // Ambil waktu login dari response
+                    var waktuLogin = result.waktuLogin || '';
+                    
                     const sessionData = {
                         id: id,
                         nama: result.nama,
                         kode: kode,
+                        waktuLogin: waktuLogin,
                         expiry: Date.now() + (30 * 24 * 60 * 60 * 1000)
                     };
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
@@ -1147,6 +1198,7 @@
                     currentNama = result.nama;
                     currentId = id;
                     currentKode = kode;
+                    currentWaktuLogin = waktuLogin;
                     isAmplopOpened = false;
                     localStorage.removeItem(AMPLOP_KEY);
                     
@@ -1155,7 +1207,12 @@
                     loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
                     return;
                 } else {
-                    loginError.textContent = '❌ ' + result.pesan;
+                    // Jika kode sudah digunakan, tampilkan waktu login sebelumnya
+                    if (result.waktuLogin) {
+                        loginError.textContent = '❌ ' + result.pesan + ' (Login: ' + result.waktuLogin + ')';
+                    } else {
+                        loginError.textContent = '❌ ' + result.pesan;
+                    }
                     loginError.className = 'error-msg show';
                     loginBtn.disabled = false;
                     loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
@@ -1180,17 +1237,24 @@
                 }
 
                 if (tamu.status === 'Sudah') {
-                    deviceWarning.textContent = '⚠️ Kode ini sudah digunakan!';
+                    var waktuSebelumnya = tamu.waktuLogin || 'waktu tidak diketahui';
+                    deviceWarning.textContent = '⚠️ Kode ini sudah digunakan! (Login: ' + waktuSebelumnya + ')';
                     deviceWarning.className = 'device-warning show';
                     loginBtn.disabled = false;
                     loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
                     return;
                 }
 
+                // Buat waktu login saat ini untuk cadangan
+                var now = new Date();
+                var waktuLogin = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + 
+                                now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
                 const sessionData = {
                     id: id,
                     nama: tamu.nama,
                     kode: kode,
+                    waktuLogin: waktuLogin,
                     expiry: Date.now() + (30 * 24 * 60 * 60 * 1000)
                 };
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
@@ -1198,6 +1262,7 @@
                 currentNama = tamu.nama;
                 currentId = id;
                 currentKode = kode;
+                currentWaktuLogin = waktuLogin;
                 isAmplopOpened = false;
                 localStorage.removeItem(AMPLOP_KEY);
                 
@@ -1211,7 +1276,6 @@
         // 11. CEK SESSION SAAT LOAD
         // ==========================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Sembunyikan konten utama dulu
             document.getElementById('main-scroll-screen').style.display = 'none';
             
             const sudahLogin = cekSession();
