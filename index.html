@@ -474,6 +474,21 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
+        .device-warning {
+            display: none;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 12px;
+            color: #ffc107;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+        .device-warning.show {
+            display: block;
+        }
+
         @media (max-width: 480px) {
             .iphone-container {
                 width: 100vw;
@@ -515,7 +530,7 @@
             <p style="letter-spacing:3px; font-size:0.8rem;">LOADING EXPERIENCE</p>
         </div>
 
-        <!-- ===== COVER DENGAN LOGIN ===== -->
+        <!-- ===== COVER DENGAN FORM LOGIN ===== -->
         <div id="cover">
             <div class="cover-header">
                 <p class="sub-label">THE WEDDING OF</p>
@@ -527,6 +542,9 @@
                 <h3>🔐 Verifikasi Tamu</h3>
                 
                 <div class="error-msg" id="loginError"></div>
+                <div class="device-warning" id="deviceWarning">
+                    ⚠️ Kode ini sudah digunakan di perangkat lain!
+                </div>
                 
                 <input type="text" id="inputId" placeholder="ID (contoh: heri)" style="text-transform:lowercase;">
                 <input type="tel" id="inputNoHp" placeholder="Nomor WA (contoh: 081316333597)">
@@ -757,6 +775,9 @@
             <a class="nav-item" href="#rsvp" onclick="navigateTo(event, 'rsvp', this)">
                 <i class="fa-solid fa-envelope-open-text"></i><span>RSVP</span>
             </a>
+            <a class="nav-item" href="#penutup" onclick="navigateTo(event, 'penutup', this)">
+                <i class="fa-solid fa-gift"></i><span>Penutup</span>
+            </a>
         </div>
 
         <div class="audio-control" id="audioContainer">
@@ -774,30 +795,38 @@
     </audio>
 
     <!-- ========================================== -->
-    <!-- SCRIPT LENGKAP DENGAN URL APPS SCRIPT ANDA -->
+    <!-- SCRIPT LENGKAP SESUAI SPREADSHEET          -->
     <!-- ========================================== -->
     <script>
         // ==========================================
         // 1. KONFIGURASI URL APPS SCRIPT
-        //    SUDAH MENGGUNAKAN URL TERBARU ANDA
         // ==========================================
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzc75qtUrGJHnr6P4eJaEgr3CNEDBsFHimnKBLb_ws9XN-ZB_EiJmVtkh-rklPXaCe5/exec';
+        // GANTI DENGAN URL DEPLOY APPS SCRIPT ANDA
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhbHdd8OUn_2zyZxxcBWkuufHN-54o4xSBN0QdsH8xzF2KjgiBbFdlEQ4iROm6Ex9e/exec';
 
         // ==========================================
-        // 2. DATA TAMU STATIS (SEBAGAI CADANGAN)
+        // 2. DATA TAMU CADANGAN (jika Apps Script offline)
+        //    SESUAI DENGAN SPREADSHEET ANDA
         // ==========================================
         const DATA_TAMU_CADANGAN = [
-            { id: 'heri', noHp: '081316333597', kode: 'KB-001', nama: 'Mas Heri' },
-            { id: 'yoto', noHp: '081000000000', kode: 'KB-002', nama: 'Mas Yoto' }
+            { no: 1, kategori: 'Keluarga Blabag', nama: 'Mas Heri', noHp: '081316333597', id: 'heri', kode: 'KB-001', status: 'Sudah' },
+            { no: 2, kategori: 'Keluarga Blabag', nama: 'Mas Yoto', noHp: '081000000000', id: 'yoto', kode: 'KB-002', status: '' },
+            { no: 3, kategori: 'Keluarga Blabag', nama: 'Mas Mudi', noHp: '081200000000', id: 'mudi', kode: 'KB-003', status: 'Sudah' },
+            { no: 4, kategori: 'Keluarga Blabag', nama: 'Mas Molan', noHp: '081300000000', id: 'molan', kode: 'KB-004', status: '' }
         ];
-        let STATUS_LOGIN_CADANGAN = {};
 
         // ==========================================
-        // 3. ELEMEN DOM
+        // 3. STORAGE KEY
+        // ==========================================
+        const STORAGE_KEY = 'bf_wedding_session';
+
+        // ==========================================
+        // 4. ELEMEN DOM
         // ==========================================
         const cover = document.getElementById('cover');
         const loginBtn = document.getElementById('loginBtn');
         const loginError = document.getElementById('loginError');
+        const deviceWarning = document.getElementById('deviceWarning');
         const inputId = document.getElementById('inputId');
         const inputNoHp = document.getElementById('inputNoHp');
         const inputKode = document.getElementById('inputKode');
@@ -805,18 +834,38 @@
         const guestTarget = document.getElementById('guest-target');
 
         // ==========================================
-        // 4. FUNGSI PROSES LOGIN DENGAN FETCH
+        // 5. CEK SESSION DI localStorage
+        // ==========================================
+        function cekSession() {
+            const session = localStorage.getItem(STORAGE_KEY);
+            if (session) {
+                try {
+                    const data = JSON.parse(session);
+                    if (data.expiry && Date.now() < data.expiry) {
+                        loginBerhasil(data.nama, data.id, data.kode);
+                        return true;
+                    } else {
+                        localStorage.removeItem(STORAGE_KEY);
+                    }
+                } catch (e) {
+                    localStorage.removeItem(STORAGE_KEY);
+                }
+            }
+            return false;
+        }
+
+        // ==========================================
+        // 6. FUNGSI PROSES LOGIN
         // ==========================================
         async function prosesLogin() {
             const id = inputId.value.trim().toLowerCase();
             const noHp = inputNoHp.value.trim();
             const kode = inputKode.value.trim().toUpperCase();
 
-            // Reset error
             loginError.className = 'error-msg';
             loginError.textContent = '';
+            deviceWarning.className = 'device-warning';
 
-            // Validasi
             if (!id || !noHp || !kode) {
                 loginError.textContent = '⚠️ ID, Nomor WA, dan KODE harus diisi!';
                 loginError.className = 'error-msg show';
@@ -835,14 +884,10 @@
                 return;
             }
 
-            // Loading state
             loginBtn.disabled = true;
             loginBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Memverifikasi...';
 
             try {
-                // ==========================================
-                // PAKAI APPS SCRIPT
-                // ==========================================
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     headers: {
@@ -860,11 +905,16 @@
                 console.log('Response Apps Script:', result);
 
                 if (result.status === 'success') {
-                    // === LOGIN BERHASIL ===
-                    loginBerhasil(result.nama, id);
+                    const sessionData = {
+                        id: id,
+                        nama: result.nama,
+                        kode: kode,
+                        expiry: Date.now() + (30 * 24 * 60 * 60 * 1000)
+                    };
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
+                    loginBerhasil(result.nama, id, kode);
                     return;
                 } else {
-                    // === LOGIN GAGAL DARI APPS SCRIPT ===
                     loginError.textContent = '❌ ' + result.pesan;
                     loginError.className = 'error-msg show';
                     loginBtn.disabled = false;
@@ -873,12 +923,8 @@
                 }
 
             } catch (error) {
-                // ==========================================
-                // JIKA APPS SCRIPT GAGAL, PAKAI CADANGAN
-                // ==========================================
                 console.warn('Apps Script error, pakai data cadangan:', error);
                 
-                // Cari di data cadangan
                 const tamu = DATA_TAMU_CADANGAN.find(t => 
                     t.id === id && 
                     t.noHp === noHp && 
@@ -893,62 +939,71 @@
                     return;
                 }
 
-                if (STATUS_LOGIN_CADANGAN[kode]) {
-                    loginError.textContent = '⚠️ Kode ini sudah digunakan!';
-                    loginError.className = 'error-msg show';
+                if (tamu.status === 'Sudah') {
+                    deviceWarning.textContent = '⚠️ Kode ini sudah digunakan!';
+                    deviceWarning.className = 'device-warning show';
                     loginBtn.disabled = false;
                     loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
                     return;
                 }
 
-                STATUS_LOGIN_CADANGAN[kode] = true;
-                loginBerhasil(tamu.nama, id);
+                const sessionData = {
+                    id: id,
+                    nama: tamu.nama,
+                    kode: kode,
+                    expiry: Date.now() + (30 * 24 * 60 * 60 * 1000)
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
+                
+                loginBerhasil(tamu.nama, id, kode);
             }
         }
 
         // ==========================================
-        // 5. FUNGSI LOGIN BERHASIL
+        // 7. FUNGSI LOGIN BERHASIL
         // ==========================================
-        function loginBerhasil(nama, id) {
-            // Update text "Yth." di cover dengan nama tamu
+        function loginBerhasil(nama, id, kode) {
             guestTarget.textContent = 'Yth. ' + nama;
+            namaDisplay.textContent = 'Selamat datang, ' + nama + '! (Kode: ' + kode + ')';
             
-            // Tampilkan nama di bagian selamat datang
-            namaDisplay.textContent = 'Selamat datang, ' + nama + '!';
-            
-            // Sembunyikan cover
             cover.classList.add('hidden');
             
-            // Play audio
             const audio = document.getElementById('main-wedding-audio');
             audio.volume = 0.7;
             audio.play().catch(e => console.log('Autoplay dicegah browser.'));
 
-            // Trigger animasi
             setTimeout(triggerFadeUpAnimations, 300);
 
-            // Reset button
             loginBtn.disabled = false;
             loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
         }
 
         // ==========================================
-        // 6. FUNGSI LAINNYA
+        // 8. CEK SESSION SAAT LOAD
         // ==========================================
-        const audio = document.getElementById('main-wedding-audio');
-        const scrollContainer = document.getElementById('main-scroll-screen');
-
-        // Loading screen
-        window.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
+            const sudahLogin = cekSession();
+            
             setTimeout(() => {
                 document.getElementById('loading-screen').style.opacity = '0';
-                setTimeout(() => document.getElementById('loading-screen').style.display = 'none', 800);
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                    if (!sudahLogin) {
+                        cover.classList.remove('hidden');
+                    }
+                }, 800);
             }, 1500);
+            
             initCountdown();
             loadComments();
         });
 
-        // Navigasi
+        // ==========================================
+        // 9. FUNGSI LAINNYA
+        // ==========================================
+        const audio = document.getElementById('main-wedding-audio');
+        const scrollContainer = document.getElementById('main-scroll-screen');
+
         function navigateTo(event, targetId, element) {
             event.preventDefault();
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -962,7 +1017,6 @@
             if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Auto highlight nav
         const observerOptions = { root: scrollContainer, rootMargin: '0px', threshold: 0.4 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -982,7 +1036,6 @@
         }, observerOptions);
         document.querySelectorAll('.phone-screen section').forEach(sec => observer.observe(sec));
 
-        // Audio
         function toggleAudio() {
             const icon = document.getElementById('audioIcon');
             if (audio.paused) { audio.play(); icon.className = "fa-solid fa-circle-pause"; } 
@@ -992,7 +1045,6 @@
         function pauseMainMusic() { audio.pause(); document.getElementById('audioIcon').className = "fa-solid fa-circle-play"; }
         function resumeMainMusic() { audio.play(); document.getElementById('audioIcon').className = "fa-solid fa-circle-pause"; }
 
-        // Fade up
         scrollContainer.addEventListener('scroll', triggerFadeUpAnimations);
         function triggerFadeUpAnimations() {
             const targets = document.querySelectorAll('.fade-up');
@@ -1003,7 +1055,6 @@
             });
         }
 
-        // Countdown
         function initCountdown() {
             const targetDate = new Date("Aug 1, 2026 09:00:00").getTime();
             setInterval(() => {
@@ -1018,7 +1069,6 @@
             }, 1000);
         }
 
-        // Lightbox
         function openLightbox(src) {
             document.getElementById('lightboxImg').src = src;
             document.getElementById('lightboxGal').style.display = 'flex';
@@ -1026,7 +1076,7 @@
         function closeLightbox() { document.getElementById('lightboxGal').style.display = 'none'; }
 
         // ==========================================
-        // 7. RSVP & COMMENTS
+        // 10. RSVP & COMMENTS
         // ==========================================
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxW5_9UoxIInG8L8ltvthWu2-Q5UREvsAz3rcgftB_P1XHEosRkEAMRQQ7aq7fZGMwd/exec';
         const form = document.forms['rsvp-form'];
@@ -1085,7 +1135,7 @@
         }
 
         // ==========================================
-        // 8. ENTER KEY UNTUK LOGIN
+        // 11. ENTER KEY UNTUK LOGIN
         // ==========================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -1096,12 +1146,10 @@
             }
         });
 
-        // Auto lowercase untuk ID
         inputId.addEventListener('input', function() {
             this.value = this.value.toLowerCase();
         });
 
-        // Auto uppercase untuk kode
         inputKode.addEventListener('input', function() {
             this.value = this.value.toUpperCase();
         });
