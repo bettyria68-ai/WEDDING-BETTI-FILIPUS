@@ -103,7 +103,6 @@
             z-index: 9999;
         }
         
-        /* Speaker notch */
         .iphone-notch::before {
             content: '';
             position: absolute;
@@ -637,7 +636,6 @@
            RESPONSIVE - FRAME TETAP TERLIHAT UTUH DI SEMUA PERANGKAT
            ============================================================ */
         
-        /* Untuk layar sangat kecil (HP kecil) */
         @media (max-width: 430px) {
             body {
                 padding: 0;
@@ -671,7 +669,6 @@
             .audio-control { bottom: 75px; right: 10px; }
         }
 
-        /* Untuk tablet dan layar sedang */
         @media (min-width: 431px) and (max-width: 768px) {
             .iphone-container {
                 width: 380px;
@@ -689,7 +686,6 @@
             }
         }
 
-        /* Untuk layar besar (desktop) */
         @media (min-width: 769px) {
             .iphone-container {
                 width: 390px;
@@ -701,7 +697,6 @@
             }
         }
 
-        /* Untuk landscape di HP */
         @media (max-height: 500px) and (orientation: landscape) {
             .iphone-container {
                 width: 320px;
@@ -734,7 +729,6 @@
             .countdown-box span { font-size: 1rem; }
         }
 
-        /* Optimasi performa */
         .lazy-load {
             content-visibility: auto;
             contain-intrinsic-size: 0 500px;
@@ -777,16 +771,15 @@
                     ⚠️ Kode ini sudah digunakan di perangkat lain!
                 </div>
                 
-                <input type="text" id="inputId" placeholder="ID (contoh: heri)" style="text-transform:lowercase;">
-                <input type="tel" id="inputNoHp" placeholder="Nomor WA (contoh: 081316333597)">
-                <input type="text" id="inputKode" placeholder="Kode Undangan (contoh: KB-001)" style="text-transform:uppercase;">
+                <input type="text" id="inputNama" placeholder="NAMA" style="text-transform:lowercase;">
+                <input type="text" id="inputKode" placeholder="KODE UNDANGAN" style="text-transform:uppercase;">
                 
                 <button class="login-btn" id="loginBtn" onclick="prosesLogin()">
                     <i class="fa-solid fa-unlock"></i> Buka Undangan
                 </button>
                 
                 <p class="info-text">
-                    <i class="fa-regular fa-circle-check"></i> Masukkan ID, Nomor WA, dan Kode Undangan
+                    <i class="fa-regular fa-circle-check"></i> Masukkan NAMA dan KODE Undangan
                 </p>
             </div>
 
@@ -1053,7 +1046,7 @@
         // ==========================================
         // 1. KONFIGURASI URL APPS SCRIPT (BARU)
         // ==========================================
-        var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydU10KyvBX9royhk2jKtDRPdxXWtwlqUIa6Q8spThUyoq718kUVxy8SkZqme9iSkVa/exec';
+        var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbywjxT9TZfyNqcjU6ybKX_aW121SQURza39CthQBXLCkiOiHWtaR1BWLhVAFwuxe1s6/exec';
 
         // ==========================================
         // 2. DATA TAMU CADANGAN
@@ -1078,8 +1071,7 @@
         var loginBtn = document.getElementById('loginBtn');
         var loginError = document.getElementById('loginError');
         var deviceWarning = document.getElementById('deviceWarning');
-        var inputId = document.getElementById('inputId');
-        var inputNoHp = document.getElementById('inputNoHp');
+        var inputNama = document.getElementById('inputNama');
         var inputKode = document.getElementById('inputKode');
         var namaDisplay = document.getElementById('namaTamuDisplay');
         var guestTarget = document.getElementById('guest-target');
@@ -1210,25 +1202,18 @@
         }
 
         // ==========================================
-        // 10. FUNGSI PROSES LOGIN
+        // 10. FUNGSI PROSES LOGIN (REVISI: HANYA NAMA + KODE)
         // ==========================================
         async function prosesLogin() {
-            var id = inputId.value.trim().toLowerCase();
-            var noHp = inputNoHp.value.trim();
+            var nama = inputNama.value.trim().toLowerCase();
             var kode = inputKode.value.trim().toUpperCase();
 
             loginError.className = 'error-msg';
             loginError.textContent = '';
             deviceWarning.className = 'device-warning';
 
-            if (!id || !noHp || !kode) {
-                loginError.textContent = '⚠️ ID, Nomor WA, dan KODE harus diisi!';
-                loginError.className = 'error-msg show';
-                return;
-            }
-
-            if (!/^[0-9]{10,13}$/.test(noHp)) {
-                loginError.textContent = '❌ Nomor WA harus 10-13 digit angka!';
+            if (!nama || !kode) {
+                loginError.textContent = '⚠️ NAMA dan KODE UNDANGAN harus diisi!';
                 loginError.className = 'error-msg show';
                 return;
             }
@@ -1250,8 +1235,7 @@
                     },
                     body: new URLSearchParams({
                         action: 'login',
-                        id: id,
-                        noHp: noHp,
+                        id: nama,  // Kirim nama sebagai 'id'
                         kode: kode
                     })
                 });
@@ -1262,7 +1246,7 @@
                     var waktuLogin = result.waktuLogin || '';
                     
                     var sessionData = {
-                        id: id,
+                        id: nama,
                         nama: result.nama,
                         kode: kode,
                         waktuLogin: waktuLogin,
@@ -1271,7 +1255,7 @@
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
                     
                     currentNama = result.nama;
-                    currentId = id;
+                    currentId = nama;
                     currentKode = kode;
                     currentWaktuLogin = waktuLogin;
                     isAmplopOpened = false;
@@ -1297,11 +1281,11 @@
                 console.warn('Apps Script error, pakai data cadangan:', error);
                 
                 var tamu = DATA_TAMU_CADANGAN.find(function(t) {
-                    return t.id === id && t.noHp === noHp && t.kode === kode;
+                    return t.id === nama && t.kode === kode;
                 });
 
                 if (!tamu) {
-                    loginError.textContent = '❌ Data tidak ditemukan! Periksa ID, Nomor WA, dan KODE Anda.';
+                    loginError.textContent = '❌ Data tidak ditemukan! Periksa NAMA dan KODE Undangan Anda.';
                     loginError.className = 'error-msg show';
                     loginBtn.disabled = false;
                     loginBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Buka Undangan';
@@ -1322,7 +1306,7 @@
                                 now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
                 var sessionData = {
-                    id: id,
+                    id: nama,
                     nama: tamu.nama,
                     kode: kode,
                     waktuLogin: waktuLogin,
@@ -1331,7 +1315,7 @@
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
                 
                 currentNama = tamu.nama;
-                currentId = id;
+                currentId = nama;
                 currentKode = kode;
                 currentWaktuLogin = waktuLogin;
                 isAmplopOpened = false;
@@ -1525,13 +1509,13 @@
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 var target = e.target;
-                if (target.id === 'inputId' || target.id === 'inputNoHp' || target.id === 'inputKode') {
+                if (target.id === 'inputNama' || target.id === 'inputKode') {
                     prosesLogin();
                 }
             }
         });
 
-        inputId.addEventListener('input', function() {
+        inputNama.addEventListener('input', function() {
             this.value = this.value.toLowerCase();
         });
 
