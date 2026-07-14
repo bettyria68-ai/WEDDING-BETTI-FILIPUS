@@ -595,7 +595,14 @@
             padding: 8px 0;
         }
         .comment-node strong { color: #333; font-size: 0.9rem; }
-        .comment-node span { font-size: 0.65rem; color: #777; margin-left: 5px; display: inline-block; }
+        .comment-node .badge {
+            background: #D4AF37;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            color: #fff;
+            margin-left: 8px;
+        }
         .comment-node p { font-size: 0.85rem; margin-top: 4px; color: #111; font-weight: bold; }
 
         /* ===== LIGHTBOX ===== */
@@ -907,9 +914,13 @@
                 </div>
             </section>
 
+            <!-- ===== RSVP SECTION ===== -->
             <section id="rsvp" class="fade-up">
                 <div class="glass-panel">
                     <h2 class="gold-title">RSVP & Ucapan</h2>
+                    <p style="text-align:center;font-size:0.8rem;color:#888;margin-bottom:15px;">
+                        Kirimkan doa dan ucapan restu Anda
+                    </p>
                     <form id="rsvp-form" onsubmit="submitRSVP(event)">
                         <input type="text" name="nama" id="rsvp-nama" class="comment-input" placeholder="Nama Anda" required>
                         <select name="jumlah" id="rsvp-jumlah" class="comment-select" required>
@@ -922,14 +933,16 @@
                             <option value=">5">>5 Orang</option>
                         </select>
                         <select name="konfirmasi" id="rsvp-konfirmasi" class="comment-select" required>
-                            <option value="" disabled selected>Konfirmasi</option>
+                            <option value="" disabled selected>Konfirmasi Kehadiran</option>
                             <option value="Hadir Misa">Hadir Misa</option>
                             <option value="Hadir Syukuran">Hadir Syukuran</option>
-                            <option value="Hadir Misa dan Syukuran">Hadir Misa & Syukuran</option>
+                            <option value="Hadir Misa dan Syukuran">Hadir Misa &amp; Syukuran</option>
                             <option value="Tidak Hadir">Tidak Hadir</option>
                         </select>
-                        <textarea name="ucapan" id="rsvp-ucapan" class="comment-textarea" rows="3" placeholder=" Tulis Ucapan & Doa Restu..." required></textarea>
-                        <button type="submit" id="submit-btn" class="btn-premium" style="width: 100%;">Kirim Ucapan</button>
+                        <textarea name="ucapan" id="rsvp-ucapan" class="comment-textarea" rows="3" placeholder="Tulis ucapan &amp; doa restu..." required></textarea>
+                        <button type="submit" id="submit-btn" class="btn-premium" style="width: 100%;">
+                            <i class="fa-regular fa-paper-plane"></i> Kirim Ucapan
+                        </button>
                     </form>
                     
                     <div class="comments-display" id="comments-box">
@@ -1014,7 +1027,7 @@
         // ==========================================
         // 1. KONFIGURASI URL APPS SCRIPT TERBARU
         // ==========================================
-        var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-NqsZHwS8OijAe1jIuk4ec-S1fOmNRp2EM3m7JgNOfPZFZZB3URnMztwjnOn7J0AC/exec';
+        var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz0vkjzeO_QWEOsMNJnKRNAzWVinOKOQk9_ztNCFom04JTMe-C-titsBir9rYT5XvK7/exec';
 
         // ==========================================
         // 2. DATA TAMU CADANGAN
@@ -1327,7 +1340,7 @@
         }
 
         // ==========================================
-        // 12. RSVP & COMMENTS
+        // 12. RSVP & COMMENTS - DIPERBAIKI
         // ==========================================
         var form = document.getElementById('rsvp-form');
         var submitBtn = document.getElementById('submit-btn');
@@ -1348,6 +1361,7 @@
             submitBtn.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Mengirim...";
             submitBtn.disabled = true;
 
+            // Kirim data ke Google Apps Script
             fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
                 headers: {
@@ -1365,20 +1379,21 @@
                 return response.json();
             })
             .then(function(data) {
+                console.log('Response dari server:', data);
                 if (data.result === 'success') {
                     alert('Terima kasih! Ucapan Anda telah terkirim. 🙏');
                     form.reset();
-                    loadComments();
+                    loadComments(); // Refresh daftar ucapan
                 } else {
-                    alert('Gagal mengirim. Silakan coba lagi.');
+                    alert('Gagal mengirim: ' + (data.error || 'Silakan coba lagi.'));
                 }
-                submitBtn.innerHTML = "Kirim Ucapan";
+                submitBtn.innerHTML = "<i class='fa-regular fa-paper-plane'></i> Kirim Ucapan";
                 submitBtn.disabled = false;
             })
             .catch(function(error) {
                 console.error('Error:', error);
                 alert('Gagal mengirim. Silakan coba lagi.');
-                submitBtn.innerHTML = "Kirim Ucapan";
+                submitBtn.innerHTML = "<i class='fa-regular fa-paper-plane'></i> Kirim Ucapan";
                 submitBtn.disabled = false;
             });
         }
@@ -1395,7 +1410,7 @@
                 .then(function(data) {
                     box.innerHTML = '';
                     if (!data || data.length === 0) {
-                        box.innerHTML = '<p style="text-align:center; margin-top:20px; font-size:0.9rem;">Belum ada ucapan. Jadilah yang pertama!</p>';
+                        box.innerHTML = '<p style="text-align:center; margin-top:20px; font-size:0.9rem;">Belum ada ucapan. Jadilah yang pertama! 🎉</p>';
                         return;
                     }
                     for (var i = 0; i < data.length; i++) {
@@ -1406,9 +1421,13 @@
                                 var d = new Date(item.timestamp);
                                 dateStr = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
                             }
-                            var labelKonfirmasi = item.konfirmasi ? '( <i class="fa-solid fa-check"></i> ' + item.konfirmasi + ' )' : '';
+                            var labelKonfirmasi = item.konfirmasi ? '<span class="badge">✓ ' + item.konfirmasi + '</span>' : '';
                             var jumlahText = item.jumlah ? ' (' + item.jumlah + ' orang)' : '';
-                            box.innerHTML += '<div class="comment-node"><strong>' + escapeHtml(item.nama) + '</strong> ' + labelKonfirmasi + jumlahText + '<p>' + escapeHtml(item.ucapan) + '</p><div style="font-size:0.6rem; color:#888; margin-top:4px;">' + dateStr + '</div></div>';
+                            box.innerHTML += '<div class="comment-node">' +
+                                '<strong>' + escapeHtml(item.nama) + '</strong> ' + labelKonfirmasi + jumlahText +
+                                '<p>' + escapeHtml(item.ucapan) + '</p>' +
+                                '<div style="font-size:0.6rem; color:#888; margin-top:4px;">' + dateStr + '</div>' +
+                                '</div>';
                         }
                     }
                 })
