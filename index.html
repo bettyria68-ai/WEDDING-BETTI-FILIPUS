@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== RESET ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Montserrat', sans-serif;
@@ -39,7 +40,7 @@
         }
         .screen::-webkit-scrollbar { display: none; }
 
-        /* COVER / LOGIN */
+        /* ===== COVER / LOGIN ===== */
         #cover {
             position: absolute;
             top: 0; left: 0;
@@ -133,7 +134,7 @@
             letter-spacing: 1px;
         }
 
-        /* AMPLOP */
+        /* ===== AMPLOP ===== */
         #amplop {
             position: absolute;
             top: 0; left: 0;
@@ -199,7 +200,7 @@
             box-shadow: 0 5px 30px rgba(212,175,55,0.4);
         }
 
-        /* SECTION */
+        /* ===== SECTION ===== */
         section {
             padding: 20px 0;
             opacity: 0;
@@ -229,7 +230,7 @@
         .gold-text { color: #D4AF37; }
         .text-center { text-align: center; }
 
-        /* PROFIL */
+        /* ===== PROFIL ===== */
         .profile-row {
             display: flex;
             align-items: center;
@@ -248,7 +249,7 @@
             line-height: 1.5;
         }
 
-        /* COUNTDOWN */
+        /* ===== COUNTDOWN ===== */
         .countdown {
             display: flex;
             gap: 10px;
@@ -274,7 +275,7 @@
             color: #888;
         }
 
-        /* GALERI */
+        /* ===== GALERI ===== */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -293,7 +294,7 @@
             transform: scale(1.02);
         }
 
-        /* RSVP FORM */
+        /* ===== RSVP FORM ===== */
         .rsvp-form input,
         .rsvp-form select,
         .rsvp-form textarea {
@@ -340,7 +341,7 @@
             transform: none;
         }
 
-        /* COMMENTS */
+        /* ===== COMMENTS ===== */
         .comments-box {
             max-height: 300px;
             overflow-y: auto;
@@ -383,7 +384,7 @@
             padding: 20px;
         }
 
-        /* NAVIGASI */
+        /* ===== NAVIGASI ===== */
         .bottom-nav {
             position: absolute;
             bottom: 0;
@@ -421,7 +422,7 @@
             color: #D4AF37;
         }
 
-        /* AUDIO */
+        /* ===== AUDIO ===== */
         .audio-ctrl {
             position: absolute;
             bottom: 75px;
@@ -457,7 +458,7 @@
             display: block;
         }
 
-        /* LIGHTBOX */
+        /* ===== LIGHTBOX ===== */
         .lightbox {
             position: absolute;
             top: 0; left: 0;
@@ -484,7 +485,7 @@
             cursor: pointer;
         }
 
-        /* RESPONSIVE */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 430px) {
             .container {
                 width: 100vw;
@@ -502,7 +503,7 @@
 
 <div class="container">
 
-    <!-- COVER / LOGIN -->
+    <!-- ===== COVER / LOGIN ===== -->
     <div id="cover">
         <div class="cover-title">Betti &amp; Filipus</div>
         <div class="cover-sub">THE WEDDING OF</div>
@@ -517,7 +518,7 @@
         <div class="cover-footer">"Mangun Suci Mring Wardaya"</div>
     </div>
 
-    <!-- AMPLOP -->
+    <!-- ===== AMPLOP ===== -->
     <div id="amplop">
         <div class="amplop-icon">💌</div>
         <div class="amplop-title">Betti &amp; Filipus</div>
@@ -527,7 +528,7 @@
         </button>
     </div>
 
-    <!-- ISI UNDANGAN -->
+    <!-- ===== ISI UNDANGAN ===== -->
     <div class="screen" id="mainScreen" style="display:none;">
 
         <!-- BERANDA -->
@@ -755,7 +756,7 @@
 
     </div>
 
-    <!-- NAVIGASI -->
+    <!-- ===== NAVIGASI ===== -->
     <div class="bottom-nav" id="bottomNav">
         <a class="nav-item active" href="#beranda" onclick="navigateTo(event,'beranda',this)"><i class="fas fa-home"></i>Beranda</a>
         <a class="nav-item" href="#quotes" onclick="navigateTo(event,'quotes',this)"><i class="fas fa-quote-right"></i>Quotes</a>
@@ -766,19 +767,19 @@
         <a class="nav-item" href="#rsvp" onclick="navigateTo(event,'rsvp',this)"><i class="fas fa-envelope"></i>RSVP</a>
     </div>
 
-    <!-- AUDIO -->
+    <!-- ===== AUDIO ===== -->
     <div class="audio-ctrl">
         <button onclick="toggleAudio()"><i id="audioIcon" class="fas fa-pause"></i></button>
         <input type="range" min="0" max="1" step="0.1" value="0.7" oninput="setVolume(this.value)">
     </div>
 
-    <!-- LIGHTBOX -->
+    <!-- ===== LIGHTBOX ===== -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
         <span class="close">&times;</span>
         <img id="lightboxImg" src="">
     </div>
 
-    <!-- AUDIO -->
+    <!-- ===== AUDIO ===== -->
     <audio id="bgAudio" loop>
         <source src="assets/Menjemput Impian (online-video-cutter.com).mp3" type="audio/mp3">
     </audio>
@@ -787,16 +788,13 @@
 
 <script>
 // =============================================
-// KONFIGURASI - GANTI DENGAN URL DEPLOYMENT ANDA
+// KONFIGURASI - URL APPS SCRIPT TERBARU
 // =============================================
-// URL untuk Google Apps Script (untuk RSVP & ucapan)
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzh4L3l1mevQt8HOC8eUQ00_TN9ov91WpVx04nLGe6EHEcIQm1i_4ArtnWwNanw-KRA/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVpyExixKJajIyCBnn3R4-o94UEauw5UNE2JUyN6lqF5iU1EHWHhFHClNfUffNA7V3/exec';
 
 // =============================================
-// DATA TAMU DARI GOOGLE SHEETS
+// DATA TAMU (Sesuai dengan spreadsheet)
 // =============================================
-// Data ini diambil dari spreadsheet Anda
-// https://docs.google.com/spreadsheets/d/1DWK1eZ4u6C1iVpZsnjdZG5FHPTqA2b-wJwBuOALfg88/edit
 var DATA_TAMU = [
     { no: 1, kategori: 'Keluarga Blabag', nama: 'Mas Heri', wa: '', id: 'heri', kode: 'KB-001', status: '' },
     { no: 2, kategori: 'Keluarga Blabag', nama: 'Mas Yoto', wa: '', id: 'yoto', kode: 'KB-002', status: '' },
@@ -972,11 +970,14 @@ function submitRSVP(event) {
     }
 
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> MENGIRIM...';
 
     fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
         body: new URLSearchParams({
             action: 'rsvp',
             nama: nama,
@@ -985,19 +986,15 @@ function submitRSVP(event) {
             ucapan: ucapan
         })
     })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-        if (data.result === 'success') {
-            alert('Terima kasih! Ucapan Anda telah terkirim. 🙏');
-            document.getElementById('rsvpForm').reset();
-            loadComments();
-        } else {
-            alert('Gagal mengirim. Silakan coba lagi.');
-        }
+    .then(function() {
+        alert('Terima kasih! Ucapan Anda telah terkirim. 🙏');
+        document.getElementById('rsvpForm').reset();
+        loadComments();
         btn.disabled = false;
         btn.innerHTML = '<i class="far fa-paper-plane"></i> Kirim Ucapan';
     })
-    .catch(function() {
+    .catch(function(error) {
+        console.error('Error:', error);
         alert('Gagal mengirim. Silakan coba lagi.');
         btn.disabled = false;
         btn.innerHTML = '<i class="far fa-paper-plane"></i> Kirim Ucapan';
@@ -1012,7 +1009,12 @@ function loadComments() {
     box.innerHTML = '<div class="empty-comments"><i class="fas fa-spinner fa-spin"></i> Memuat ucapan...</div>';
 
     fetch(APPS_SCRIPT_URL + '?action=get')
-    .then(function(res) { return res.json(); })
+    .then(function(response) {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(function(data) {
         box.innerHTML = '';
         if (!data || data.length === 0) {
@@ -1031,21 +1033,29 @@ function loadComments() {
                     '<span class="badge">✓ ' + item.konfirmasi + '</span>' : '';
                 var jumlahText = item.jumlah ? ' (' + item.jumlah + ' orang)' : '';
                 box.innerHTML += '<div class="comment-item">' +
-                    '<span class="name">' + item.nama + '</span>' + badge + jumlahText +
-                    '<div class="msg">' + item.ucapan + '</div>' +
+                    '<span class="name">' + escapeHtml(item.nama) + '</span>' + badge + jumlahText +
+                    '<div class="msg">' + escapeHtml(item.ucapan) + '</div>' +
                     '<div class="time">' + dateStr + '</div>' +
                     '</div>';
             }
         }
     })
-    .catch(function() {
-        box.innerHTML = '<div class="empty-comments" style="color:#ff6b6b;">Gagal memuat ucapan.</div>';
+    .catch(function(error) {
+        console.error('Error loading comments:', error);
+        box.innerHTML = '<div class="empty-comments" style="color:#ff6b6b;">Gagal memuat ucapan. Silakan refresh halaman.</div>';
     });
 }
 
 // =============================================
 // FUNGSI LAINNYA
 // =============================================
+function escapeHtml(text) {
+    if (!text) return '';
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 function playMusic() {
     if (!musicStarted) {
         var audio = document.getElementById('bgAudio');
