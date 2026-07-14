@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* ===== RESET & VARIABEL ===== */
         :root {
             --primary-gold: #D4AF37;
             --light-gold: #F3E5AB;
@@ -571,31 +572,88 @@
         .masonry-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease;}
         .masonry-item:hover img { transform: scale(1.05);}
 
-        .comment-input, .comment-select, .comment-textarea { width: 100%; padding: 10px; margin: 6px 0; border-radius: 8px; border: 1px solid #ccc; background: rgba(255,255,255,0.9); font-family: inherit;}
-        .comments-display { width: 100%; height: 250px; overflow-y: auto; text-align: left; margin-top: 15px; background: rgba(255,255,255,0.7); border-radius: 8px; padding: 10px;}
-        .comment-node { border-bottom: 1px solid rgba(0,0,0,0.1); padding: 8px 0;}
-        .comment-node strong { color: #333; font-size: 0.9rem;}
-        .comment-node span { font-size: 0.65rem; color: #777; margin-left: 5px; display:inline-block;}
-        .comment-node p { font-size: 0.85rem; margin-top: 4px; color: #111; font-weight: bold;}
-
-        .lightbox { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 10001; display: none; justify-content: center; align-items: center; padding: 20px;}
-        .lightbox img { max-width: 100%; max-height: 80%; border-radius: 8px;}
-
-        .typewriter {
-            width: 100%;
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 0 4px;
-            overflow: visible;
-            white-space: normal;
-            overflow-wrap: anywhere;
-            word-break: normal;
-            line-height: 1.4;
-            text-align: center;
-            border-right: none;
-            animation: none;
+        /* ===== RSVP FORM ===== */
+        .comment-input, .comment-select, .comment-textarea { 
+            width: 100%; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 12px; 
+            border: 1px solid rgba(0,0,0,0.15); 
+            background: rgba(255,255,255,0.9); 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
-        
+        .comment-input:focus, .comment-select:focus, .comment-textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+        .comments-display { 
+            width: 100%; 
+            max-height: 300px; 
+            overflow-y: auto; 
+            text-align: left; 
+            margin-top: 15px; 
+            background: rgba(255,255,255,0.7); 
+            border-radius: 12px; 
+            padding: 15px;
+        }
+        .comment-node { 
+            border-bottom: 1px solid rgba(0,0,0,0.08); 
+            padding: 12px 0;
+        }
+        .comment-node:last-child { border-bottom: none; }
+        .comment-node strong { 
+            color: #333; 
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .comment-node .comment-badge {
+            background: var(--light-gold);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            color: #5c4308;
+            font-weight: 600;
+        }
+        .comment-node .comment-time { 
+            font-size: 0.6rem; 
+            color: #999; 
+            display: block;
+            margin-top: 4px;
+        }
+        .comment-node p { 
+            font-size: 0.85rem; 
+            margin-top: 6px; 
+            color: #222; 
+            line-height: 1.5;
+        }
+        .empty-comments {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .lightbox { 
+            position: absolute; 
+            top:0; left:0; 
+            width:100%; height:100%; 
+            background: rgba(0,0,0,0.9); 
+            z-index: 10001; 
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px;
+        }
+        .lightbox img { 
+            max-width: 100%; 
+            max-height: 80%; 
+            border-radius: 8px;
+        }
+
         .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease;}
         .fade-up.visible { opacity: 1; transform: translateY(0);}
         @keyframes pulse { from {transform: scale(0.95); opacity:0.8;} to {transform: scale(1.05); opacity:1;} }
@@ -632,15 +690,9 @@
             display: block;
         }
 
-        /* ============================================================
-           RESPONSIVE - FRAME TETAP TERLIHAT UTUH DI SEMUA PERANGKAT
-           ============================================================ */
-        
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 430px) {
-            body {
-                padding: 0;
-                background: #0b0b0b;
-            }
+            body { padding: 0; background: #0b0b0b; }
             .iphone-container {
                 width: 100vw;
                 height: 100vh;
@@ -692,9 +744,7 @@
                 height: 844px;
                 border-radius: 48px;
             }
-            body {
-                padding: 20px;
-            }
+            body { padding: 20px; }
         }
 
         @media (max-height: 500px) and (orientation: landscape) {
@@ -727,15 +777,6 @@
             .cover-footer { font-size: 0.5rem; }
             .pantun-welcome { font-size: 0.8rem; padding: 12px 15px; }
             .countdown-box span { font-size: 1rem; }
-        }
-
-        .lazy-load {
-            content-visibility: auto;
-            contain-intrinsic-size: 0 500px;
-        }
-        .reduce-motion {
-            animation-duration: 0.5s !important;
-            transition-duration: 0.3s !important;
         }
     </style>
 </head>
@@ -939,11 +980,15 @@
                 </div>
             </section>
 
+            <!-- ===== SECTION RSVP ===== -->
             <section id="rsvp" class="fade-up">
                 <div class="glass-panel">
                     <h2 class="gold-title">RSVP & Ucapan</h2>
-                    <form id="rsvp-form" name="rsvp-form" onsubmit="submitRSVP(event)">
+                    <p style="font-size: 0.8rem; margin-bottom: 15px; opacity: 0.7;">Kirimkan ucapan dan doa restu Anda</p>
+                    
+                    <form id="rsvp-form" onsubmit="submitRSVP(event)">
                         <input type="text" name="nama" id="rsvp-nama" class="comment-input" placeholder="Nama Anda" required>
+                        
                         <select name="jumlah" id="rsvp-jumlah" class="comment-select" required>
                             <option value="" disabled selected>Jumlah Kehadiran</option>
                             <option value="1">1 Orang</option>
@@ -953,19 +998,24 @@
                             <option value="5">5 Orang</option>
                             <option value=">5">>5 Orang</option>
                         </select>
+                        
                         <select name="konfirmasi" id="rsvp-konfirmasi" class="comment-select" required>
-                            <option value="" disabled selected>Konfirmasi</option>
+                            <option value="" disabled selected>Konfirmasi Kehadiran</option>
                             <option value="Hadir Misa">Hadir Misa</option>
                             <option value="Hadir Syukuran">Hadir Syukuran</option>
                             <option value="Hadir Misa dan Syukuran">Hadir Misa & Syukuran</option>
                             <option value="Tidak Hadir">Tidak Hadir</option>
                         </select>
-                        <textarea name="ucapan" id="rsvp-ucapan" class="comment-textarea" rows="3" placeholder=" Tulis Ucapan & Doa Restu..." required></textarea>
-                        <button type="submit" id="submit-btn" class="btn-premium" style="width: 100%;">Kirim Ucapan</button>
+                        
+                        <textarea name="ucapan" id="rsvp-ucapan" class="comment-textarea" rows="3" placeholder="Tulis Ucapan & Doa Restu..." required></textarea>
+                        
+                        <button type="submit" id="submit-btn" class="btn-premium" style="width: 100%;">
+                            <i class="fa-regular fa-paper-plane"></i> Kirim Ucapan
+                        </button>
                     </form>
                     
                     <div class="comments-display" id="comments-box">
-                        <div style="text-align:center; padding: 20px;"><i class="fa fa-spinner fa-spin"></i> Memuat Ucapan...</div>
+                        <div class="empty-comments"><i class="fa fa-spinner fa-spin"></i> Memuat ucapan...</div>
                     </div>
                 </div>
             </section>
@@ -1040,13 +1090,14 @@
     </audio>
 
     <!-- ========================================== -->
-    <!-- SCRIPT LENGKAP DENGAN WAKTU LOGIN          -->
+    <!-- SCRIPT LENGKAP DENGAN RSVP TERHUBUNG      -->
     <!-- ========================================== -->
     <script>
         // ==========================================
-        // 1. KONFIGURASI URL APPS SCRIPT (BARU)
+        // 1. KONFIGURASI URL APPS SCRIPT
         // ==========================================
-        var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbywjxT9TZfyNqcjU6ybKX_aW121SQURza39CthQBXLCkiOiHWtaR1BWLhVAFwuxe1s6/exec';
+        // GANTI URL INI DENGAN URL DEPLOYMENT ANDA
+        var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYED_URL/exec';
 
         // ==========================================
         // 2. DATA TAMU CADANGAN
@@ -1158,6 +1209,7 @@
                 
                 playMusic();
                 setTimeout(triggerFadeUpAnimations, 400);
+                loadComments(); // Load ucapan saat amplop dibuka
             }, 800);
         }
 
@@ -1181,6 +1233,7 @@
             
             playMusic();
             setTimeout(triggerFadeUpAnimations, 400);
+            loadComments(); // Load ucapan saat langsung masuk
         }
 
         // ==========================================
@@ -1202,7 +1255,7 @@
         }
 
         // ==========================================
-        // 10. FUNGSI PROSES LOGIN (REVISI: HANYA NAMA + KODE)
+        // 10. FUNGSI PROSES LOGIN
         // ==========================================
         async function prosesLogin() {
             var nama = inputNama.value.trim().toLowerCase();
@@ -1235,7 +1288,7 @@
                     },
                     body: new URLSearchParams({
                         action: 'login',
-                        id: nama,  // Kirim nama sebagai 'id'
+                        id: nama,
                         kode: kode
                     })
                 });
@@ -1328,7 +1381,118 @@
         }
 
         // ==========================================
-        // 11. CEK SESSION SAAT LOAD
+        // 11. FUNGSI RSVP / UCAPAN
+        // ==========================================
+        function submitRSVP(event) {
+            event.preventDefault();
+            
+            var submitBtn = document.getElementById('submit-btn');
+            var form = document.getElementById('rsvp-form');
+            var nama = document.getElementById('rsvp-nama').value.trim();
+            var jumlah = document.getElementById('rsvp-jumlah').value;
+            var konfirmasi = document.getElementById('rsvp-konfirmasi').value;
+            var ucapan = document.getElementById('rsvp-ucapan').value.trim();
+
+            if (!nama || !ucapan) {
+                alert('Mohon isi nama dan ucapan Anda!');
+                return;
+            }
+
+            submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Mengirim...';
+            submitBtn.disabled = true;
+
+            // Kirim ke Google Apps Script
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'rsvp',
+                    nama: nama,
+                    jumlah: jumlah,
+                    konfirmasi: konfirmasi,
+                    ucapan: ucapan
+                })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                if (data.result === 'success') {
+                    alert('Terima kasih! Ucapan dan doa Anda telah terkirim. 🙏');
+                    form.reset();
+                    loadComments(); // Refresh ucapan
+                } else {
+                    alert('Terjadi kesalahan. Silakan coba lagi.');
+                }
+                submitBtn.innerHTML = '<i class="fa-regular fa-paper-plane"></i> Kirim Ucapan';
+                submitBtn.disabled = false;
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+                alert('Gagal mengirim. Silakan coba lagi.');
+                submitBtn.innerHTML = '<i class="fa-regular fa-paper-plane"></i> Kirim Ucapan';
+                submitBtn.disabled = false;
+            });
+        }
+
+        // ==========================================
+        // 12. FUNGSI LOAD UCAPAN
+        // ==========================================
+        function loadComments() {
+            var box = document.getElementById('comments-box');
+            box.innerHTML = '<div class="empty-comments"><i class="fa fa-spinner fa-spin"></i> Memuat ucapan...</div>';
+
+            fetch(APPS_SCRIPT_URL + '?action=get')
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    box.innerHTML = '';
+                    
+                    if (!data || data.length === 0) {
+                        box.innerHTML = '<div class="empty-comments">Belum ada ucapan. Jadilah yang pertama! 🎉</div>';
+                        return;
+                    }
+
+                    // Tampilkan ucapan terbaru di atas
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        if (item.nama && item.ucapan) {
+                            var dateStr = '';
+                            if (item.timestamp) {
+                                var d = new Date(item.timestamp);
+                                dateStr = d.toLocaleDateString('id-ID', { 
+                                    day: 'numeric', 
+                                    month: 'long', 
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+                            }
+                            
+                            var badge = '';
+                            if (item.konfirmasi && item.konfirmasi !== 'Tidak Hadir') {
+                                badge = '<span class="comment-badge">✓ ' + item.konfirmasi + '</span>';
+                            } else if (item.konfirmasi === 'Tidak Hadir') {
+                                badge = '<span class="comment-badge" style="background:#ffcccc; color:#cc0000;">✗ Tidak Hadir</span>';
+                            }
+                            
+                            var jumlahText = item.jumlah ? ' (' + item.jumlah + ' orang)' : '';
+                            
+                            box.innerHTML += '<div class="comment-node">' +
+                                '<strong>' + item.nama + '</strong> ' + badge + jumlahText +
+                                '<p>' + item.ucapan + '</p>' +
+                                '<span class="comment-time">' + dateStr + '</span>' +
+                                '</div>';
+                        }
+                    }
+                })
+                .catch(function(err) {
+                    console.error('Error loading comments:', err);
+                    box.innerHTML = '<div class="empty-comments" style="color:#ff6b6b;">Gagal memuat ucapan. Silakan refresh halaman.</div>';
+                });
+        }
+
+        // ==========================================
+        // 13. CEK SESSION SAAT LOAD
         // ==========================================
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('main-scroll-screen').style.display = 'none';
@@ -1346,11 +1510,11 @@
             }, 1500);
             
             initCountdown();
-            loadComments();
+            // Load comments akan dipanggil setelah amplop dibuka
         });
 
         // ==========================================
-        // 12. FUNGSI LAINNYA
+        // 14. FUNGSI LAINNYA
         // ==========================================
         var audio = document.getElementById('main-wedding-audio');
         var scrollContainer = document.getElementById('main-scroll-screen');
@@ -1450,61 +1614,7 @@
         function closeLightbox() { document.getElementById('lightboxGal').style.display = 'none'; }
 
         // ==========================================
-        // 13. RSVP & COMMENTS
-        // ==========================================
-        var scriptURL = 'https://script.google.com/macros/s/AKfycbxW5_9UoxIInG8L8ltvthWu2-Q5UREvsAz3rcgftB_P1XHEosRkEAMRQQ7aq7fZGMwd/exec';
-        var form = document.forms['rsvp-form'];
-        var submitBtn = document.getElementById('submit-btn');
-
-        function submitRSVP(e) {
-            e.preventDefault();
-            submitBtn.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Mengirim...";
-            submitBtn.disabled = true;
-
-            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-                .then(function(response) {
-                    alert('Terima kasih! Pesan Anda berhasil dikirim.');
-                    form.reset();
-                    submitBtn.innerHTML = "Kirim Ucapan";
-                    submitBtn.disabled = false;
-                    loadComments();
-                })
-                .catch(function(error) {
-                    alert('Terjadi kesalahan. Silakan coba lagi.');
-                    submitBtn.innerHTML = "Kirim Ucapan";
-                    submitBtn.disabled = false;
-                });
-        }
-
-        function loadComments() {
-            var box = document.getElementById('comments-box');
-            fetch(scriptURL)
-                .then(function(res) { return res.json(); })
-                .then(function(data) {
-                    box.innerHTML = '';
-                    if (data.length === 0) {
-                        box.innerHTML = '<p style="text-align:center; margin-top:20px; font-size:0.9rem;">Belum ada ucapan. Jadilah yang pertama!</p>';
-                    }
-                    for (var i = 0; i < data.length; i++) {
-                        var item = data[i];
-                        if (item.nama && item.ucapan) {
-                            var dateStr = "";
-                            if (item.timestamp) {
-                                var d = new Date(item.timestamp);
-                                dateStr = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                            }
-                            var labelKonfirmasi = item.konfirmasi ? '( <i class="fa-solid fa-check"></i> ' + item.konfirmasi + ' )' : '';
-                            box.innerHTML += '<div class="comment-node"><strong>' + item.nama + '</strong> <span>' + labelKonfirmasi + '</span><p>' + item.ucapan + '</p><div style="font-size:0.6rem; color:#888; margin-top:4px;">' + dateStr + '</div></div>';
-                        }
-                    }
-                })
-                .catch(function(err) {
-                    box.innerHTML = '<p style="color:red; text-align:center;">Gagal memuat ucapan.</p>';
-                });
-        }
-
-        // ==========================================
-        // 14. ENTER KEY UNTUK LOGIN
+        // 15. ENTER KEY UNTUK LOGIN
         // ==========================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
