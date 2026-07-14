@@ -66,12 +66,7 @@
             flex-shrink: 0;
             background: #121212;
             border-radius: 48px;
-            box-shadow: 
-                0 0 0 4px #2c2c2c, 
-                0 0 0 10px #1e1e1e, 
-                0 0 0 14px #3a3a3a,
-                0 20px 60px rgba(0,0,0,0.9),
-                0 0 40px rgba(212, 175, 55, 0.08);
+            box-shadow: 0 0 0 4px #2c2c2c, 0 0 0 10px #1e1e1e, 0 0 0 14px #3a3a3a, 0 20px 60px rgba(0,0,0,0.9), 0 0 40px rgba(212, 175, 55, 0.08);
             border: 2px solid #3a3a3a;
             z-index: 10;
             overflow: hidden;
@@ -227,6 +222,7 @@
             border-color: var(--primary-gold);
             box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
         }
+        .login-form input::placeholder { color: #999; }
         .login-form .login-btn {
             width: 100%;
             padding: 14px;
@@ -293,10 +289,7 @@
             backdrop-filter: blur(5px);
             transition: opacity 0.8s ease;
         }
-        #amplop-page.show {
-            display: flex;
-            animation: fadeInAmplop 0.8s ease;
-        }
+        #amplop-page.show { display: flex; animation: fadeInAmplop 0.8s ease; }
         #amplop-page.hide {
             opacity: 0;
             pointer-events: none;
@@ -669,12 +662,7 @@
                 max-height: 100%;
             }
             .iphone-notch { display: none; }
-            .bottom-nav {
-                border-radius: 0;
-                height: 58px;
-                gap: 10px;
-                padding: 0 8px;
-            }
+            .bottom-nav { border-radius: 0; height: 58px; gap: 10px; padding: 0 8px; }
             .nav-item i { font-size: 0.95rem; }
             .nav-item span { font-size: 0.4rem; }
             .cover-header h1 { font-size: 2.2rem; }
@@ -685,40 +673,17 @@
             .gold-title { font-size: 1.8rem; }
             .audio-control { bottom: 75px; right: 10px; }
         }
-
         @media (min-width: 431px) and (max-width: 768px) {
-            .iphone-container {
-                width: 380px;
-                height: 820px;
-                border-radius: 42px;
-            }
-            .iphone-notch {
-                width: 100px;
-                height: 24px;
-                top: 10px;
-            }
-            .iphone-notch::before {
-                width: 40px;
-                height: 5px;
-            }
+            .iphone-container { width: 380px; height: 820px; border-radius: 42px; }
+            .iphone-notch { width: 100px; height: 24px; top: 10px; }
+            .iphone-notch::before { width: 40px; height: 5px; }
         }
-
         @media (min-width: 769px) {
-            .iphone-container {
-                width: 390px;
-                height: 844px;
-                border-radius: 48px;
-            }
+            .iphone-container { width: 390px; height: 844px; border-radius: 48px; }
             body { padding: 20px; }
         }
-
         @media (max-height: 500px) and (orientation: landscape) {
-            .iphone-container {
-                width: 320px;
-                height: 90vh;
-                height: 90dvh;
-                border-radius: 30px;
-            }
+            .iphone-container { width: 320px; height: 90vh; height: 90dvh; border-radius: 30px; }
             .iphone-notch { display: none; }
             .bottom-nav { height: 50px; gap: 6px; padding: 0 6px; }
             .nav-item i { font-size: 0.8rem; }
@@ -743,7 +708,6 @@
             .pantun-welcome { font-size: 0.8rem; padding: 12px 15px; }
             .countdown-box span { font-size: 1rem; }
         }
-
         .lazy-load {
             content-visibility: auto;
             contain-intrinsic-size: 0 500px;
@@ -760,7 +724,6 @@
 
     <div class="iphone-container">
         <div class="iphone-notch"></div>
-        
         <video class="inner-bg-video" autoplay loop muted playsinline preload="none">
             <source src="./assets/BG in frame fix.mp4" type="video/mp4">
         </video>
@@ -777,23 +740,17 @@
                 <h1>Betti &amp; Filipus</h1>
                 <p id="guest-target" class="typewriter">Yth. Tamu Undangan</p>
             </div>
-
             <div class="login-form" id="loginForm">
                 <h3>🔐 Verifikasi Tamu</h3>
                 <div class="error-msg" id="loginError"></div>
-                <div class="device-warning" id="deviceWarning">
-                    ⚠️ Kode ini sudah digunakan di perangkat lain!
-                </div>
+                <div class="device-warning" id="deviceWarning">⚠️ Kode ini sudah digunakan di perangkat lain!</div>
                 <input type="text" id="inputNama" placeholder="NAMA" style="text-transform:lowercase;">
                 <input type="text" id="inputKode" placeholder="KODE UNDANGAN" style="text-transform:uppercase;">
                 <button class="login-btn" id="loginBtn" onclick="prosesLogin()">
                     <i class="fa-solid fa-unlock"></i> Buka Undangan
                 </button>
-                <p class="info-text">
-                    <i class="fa-regular fa-circle-check"></i> Masukkan NAMA dan KODE Undangan
-                </p>
+                <p class="info-text"><i class="fa-regular fa-circle-check"></i> Masukkan NAMA dan KODE Undangan</p>
             </div>
-
             <div class="cover-footer">
                 <p>"Mangun Suci Mring Wardaya, Amemangun Haryaning Jagad"</p>
             </div>
@@ -1057,12 +1014,18 @@
         // ==========================================
         // 1. KONFIGURASI URL APPS SCRIPT TERBARU
         // ==========================================
-        var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9_3u6qN85KOBCpsOFs_txO2UbB07o73QETQiQ6D7AJZqVMaATWWwxV6lbpShmlRs/exec';
+        var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-NqsZHwS8OijAe1jIuk4ec-S1fOmNRp2EM3m7JgNOfPZFZZB3URnMztwjnOn7J0AC/exec';
 
         // ==========================================
-        // 2. DATA TAMU - AKAN DIISI OTOMATIS DARI SHEET
+        // 2. DATA TAMU CADANGAN
         // ==========================================
-        var DATA_TAMU = [];
+        var DATA_TAMU = [
+            { id: 'heri', nama: 'Mas Heri', kode: 'KB-001', status: '', waktuLogin: '' },
+            { id: 'yoto', nama: 'Mas Yoto', kode: 'KB-002', status: '', waktuLogin: '' },
+            { id: 'mudi', nama: 'Mas Mudi', kode: 'KB-003', status: '', waktuLogin: '' },
+            { id: 'filipus', nama: 'Filipus', kode: 'ML-001', status: '', waktuLogin: '' },
+            { id: 'betti', nama: 'Betti', kode: 'ML-002', status: '', waktuLogin: '' }
+        ];
 
         // ==========================================
         // 3. FUNGSI LOAD DATA TAMU DARI SHEET
@@ -1074,20 +1037,17 @@
                     return response.json();
                 })
                 .then(function(data) {
-                    DATA_TAMU = data;
-                    console.log('Data tamu loaded:', DATA_TAMU.length, 'tamu');
+                    if (data && data.length > 0) {
+                        DATA_TAMU = data;
+                        console.log('Data tamu loaded dari sheet:', DATA_TAMU.length, 'tamu');
+                    } else {
+                        console.log('Sheet kosong, pakai data cadangan');
+                    }
                     return DATA_TAMU;
                 })
                 .catch(function(error) {
                     console.error('Error loading data tamu:', error);
-                    // Data cadangan jika gagal
-                    DATA_TAMU = [
-                        { id: 'heri', nama: 'Mas Heri', kode: 'KB-001', status: '', waktuLogin: '' },
-                        { id: 'yoto', nama: 'Mas Yoto', kode: 'KB-002', status: '', waktuLogin: '' },
-                        { id: 'mudi', nama: 'Mas Mudi', kode: 'KB-003', status: '', waktuLogin: '' },
-                        { id: 'filipus', nama: 'Filipus', kode: 'ML-001', status: '', waktuLogin: '' },
-                        { id: 'betti', nama: 'Betti', kode: 'ML-002', status: '', waktuLogin: '' }
-                    ];
+                    console.log('Pakai data cadangan:', DATA_TAMU.length, 'tamu');
                     return DATA_TAMU;
                 });
         }
@@ -1265,6 +1225,7 @@
             loginBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Memverifikasi...';
 
             try {
+                // Coba verifikasi ke Apps Script
                 var response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     headers: {
@@ -1317,6 +1278,7 @@
             } catch (error) {
                 console.warn('Apps Script error, pakai data lokal:', error);
                 
+                // Cari di data tamu yang sudah di-load
                 var tamu = DATA_TAMU.find(function(t) {
                     return t.id === nama && t.kode === kode;
                 });
